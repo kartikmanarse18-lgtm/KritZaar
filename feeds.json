@@ -376,5 +376,33 @@
         "image": ""
       }
     ]
+  },
+  "funding": {
+    "label": "fundings",
+    "count": "3 articles",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "New",
+        "time": "5 min",
+        "title": "New Article",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "New",
+        "time": "5 min",
+        "title": "Untitled Article",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "New",
+        "time": "5 min",
+        "title": "Untitled Article",
+        "url": "",
+        "image": ""
+      }
+    ]
   }
 }
