@@ -1,2 +1,3 @@
 kritzaar
-is a multipurpisue
+is a multipurpose
+
