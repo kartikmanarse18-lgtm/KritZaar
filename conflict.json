@@ -1,0 +1,46 @@
+{
+  "cards": [
+    {
+      "tag": "Field Report",
+      "time": "12 min",
+      "title": "Dispatches From the Front: A Journalist's Final Notes",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Analysis",
+      "time": "10 min",
+      "title": "The Hidden Economics of Prolonged Conflict Zones",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Humanitarian",
+      "time": "8 min",
+      "title": "How Civilians Rebuild When the Cameras Leave",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Investigation",
+      "time": "14 min",
+      "title": "Mapping the Invisible: Satellite Data in War Zones",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Deep Dive",
+      "time": "11 min",
+      "title": "Water as a Weapon: The New Frontline Nobody Discusses",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Long Read",
+      "time": "16 min",
+      "title": "Children of the Ceasefire — A Generation in Limbo",
+      "url": "",
+      "image": ""
+    }
+  ]
+}
