@@ -390,5 +390,16 @@
         "image": ""
       }
     ]
+  },
+  "_theme": {
+    "accent": "#FF4B6E",
+    "bg": "#1C1418",
+    "card": "#241820",
+    "gold": "#C9A227",
+    "slate": "#A08088",
+    "white": "#F0E8EC",
+    "danger": "#FF4B6E",
+    "gridOpacity": 2,
+    "glowIntensity": 28
   }
 }
