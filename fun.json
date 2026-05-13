@@ -1,0 +1,46 @@
+{
+  "cards": [
+    {
+      "tag": "Lifestyle",
+      "time": "5 min",
+      "title": "These 12 People Quit Corporate Jobs to Play Board Games for a Living",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Gaming",
+      "time": "3 min",
+      "title": "The Internet's Best Hidden Game of the Year",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Quirky",
+      "time": "4 min",
+      "title": "A Bakery That Only Opens When It Rains",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Viral",
+      "time": "2 min",
+      "title": "Dog Breaks World Record. Dog Does Not Care.",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Travel",
+      "time": "6 min",
+      "title": "How to Spend 48 Hours in a City You Initially Hated",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Culture",
+      "time": "3 min",
+      "title": "The App That Makes You Laugh at 3am — Every Time",
+      "url": "",
+      "image": ""
+    }
+  ]
+}
