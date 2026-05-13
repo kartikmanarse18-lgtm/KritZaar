@@ -392,12 +392,12 @@
     ]
   },
   "_theme": {
-    "accent": "#00FFC2",
-    "bg": "#1A1C1E",
-    "card": "#1E2124",
+    "accent": "#FF4B6E",
+    "bg": "#1C1418",
+    "card": "#241820",
     "gold": "#C9A227",
-    "slate": "#9BA4B0",
-    "white": "#E8ECF0",
+    "slate": "#A08088",
+    "white": "#F0E8EC",
     "danger": "#FF4B6E",
     "gridOpacity": 2,
     "glowIntensity": 28
