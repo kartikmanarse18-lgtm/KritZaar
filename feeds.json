@@ -1,0 +1,405 @@
+{
+  "stories": {
+    "label": "Stories",
+    "count": "6 stories",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Feature",
+        "time": "14 min",
+        "title": "The Man Who Walked 4,000 Miles to Find His Purpose",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Personal Essay",
+        "time": "9 min",
+        "title": "Three Years in Isolation — What I Found There",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Profile",
+        "time": "11 min",
+        "title": "She Built an Empire From a Single Notebook",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Fiction",
+        "time": "6 min",
+        "title": "The Night the City Forgot to Sleep",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Documentary",
+        "time": "18 min",
+        "title": "Voices From the Edge: Border Stories Nobody Tells",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Reflection",
+        "time": "7 min",
+        "title": "When Failure Was the Only Teacher That Mattered",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "updates": {
+    "label": "Updates",
+    "count": "6 updates",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Breaking",
+        "time": "3 min",
+        "title": "Global Markets Shift as Tech Sector Pivots Hard",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Science",
+        "time": "5 min",
+        "title": "Scientists Confirm Breakthrough in Quantum Storage",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Urban",
+        "time": "4 min",
+        "title": "New Framework Changes How Cities Plan Transit",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Tech",
+        "time": "2 min",
+        "title": "Open Source Project Hits 100 Million Downloads",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Environment",
+        "time": "4 min",
+        "title": "Ocean Cleanup Initiative Reports Record Results",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Space",
+        "time": "6 min",
+        "title": "Telescope Captures First Clear Image of an Exoplanet Atmosphere",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "conflict": {
+    "label": "Conflict",
+    "count": "6 reports",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Field Report",
+        "time": "12 min",
+        "title": "Dispatches From the Front: A Journalist's Final Notes",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Analysis",
+        "time": "10 min",
+        "title": "The Hidden Economics of Prolonged Conflict Zones",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Humanitarian",
+        "time": "8 min",
+        "title": "How Civilians Rebuild When the Cameras Leave",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Investigation",
+        "time": "14 min",
+        "title": "Mapping the Invisible: Satellite Data in War Zones",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Deep Dive",
+        "time": "11 min",
+        "title": "Water as a Weapon: The New Frontline Nobody Discusses",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Long Read",
+        "time": "16 min",
+        "title": "Children of the Ceasefire — A Generation in Limbo",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "fun": {
+    "label": "Fun",
+    "count": "6 picks",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Lifestyle",
+        "time": "5 min",
+        "title": "These 12 People Quit Corporate Jobs to Play Board Games for a Living",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Gaming",
+        "time": "3 min",
+        "title": "The Internet's Best Hidden Game of the Year",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Quirky",
+        "time": "4 min",
+        "title": "A Bakery That Only Opens When It Rains",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Viral",
+        "time": "2 min",
+        "title": "Dog Breaks World Record. Dog Does Not Care.",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Travel",
+        "time": "6 min",
+        "title": "How to Spend 48 Hours in a City You Initially Hated",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Culture",
+        "time": "3 min",
+        "title": "The App That Makes You Laugh at 3am — Every Time",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "coolstuff": {
+    "label": "Cool Stuff",
+    "count": "6 finds",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Materials",
+        "time": "5 min",
+        "title": "This New Material Cools Itself Without a Single Watt of Electricity",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Design",
+        "time": "7 min",
+        "title": "The Designer Who Makes Museum-Grade Furniture From Compressed Air",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Architecture",
+        "time": "8 min",
+        "title": "Zero-Waste Studio Built Entirely From Reclaimed Found Objects",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Photography",
+        "time": "4 min",
+        "title": "A Camera That Shoots in Near-Total Darkness — No Flash Needed",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Gadgets",
+        "time": "3 min",
+        "title": "The Keyboard That Adapts Its Layout to Your Current Mood",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Wearables",
+        "time": "6 min",
+        "title": "Solar Fabric: Clothes That Quietly Charge Your Phone as You Walk",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "ai": {
+    "label": "AI",
+    "count": "6 reads",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Development",
+        "time": "8 min",
+        "title": "LLMs Now Write Code That Autonomously Fixes Itself in Production",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Safety",
+        "time": "10 min",
+        "title": "The Model That Learned to Refuse — And Why That's Complicated",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Science",
+        "time": "7 min",
+        "title": "How AI Is Reading the Ocean Floor for the First Time in History",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Analysis",
+        "time": "12 min",
+        "title": "Open Source vs Closed AI: The War That Shapes Your Future",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Healthcare",
+        "time": "9 min",
+        "title": "Your Next Therapist May Not Be Human — and That's the Point",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Critique",
+        "time": "6 min",
+        "title": "The Benchmark Problem: Why AI Scores Mean Absolutely Nothing",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "interesting": {
+    "label": "Interesting",
+    "count": "6 discoveries",
+    "isGold": false,
+    "cards": [
+      {
+        "tag": "Discovery",
+        "time": "2 min",
+        "title": "This Site Lets You Hear Every Radio Station Simultaneously, Live",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Linguistics",
+        "time": "4 min",
+        "title": "An Interactive Map of Every Language Ever Spoken on Earth",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Internet History",
+        "time": "6 min",
+        "title": "The Website Built by One Person Over 22 Continuous Years",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Creative Tool",
+        "time": "3 min",
+        "title": "Type Anything. Watch It Become a Song. (No Sign-up Required)",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Tracking",
+        "time": "2 min",
+        "title": "Real-Time Satellite View of Every Single Ship on Earth Right Now",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Speculative",
+        "time": "5 min",
+        "title": "A Wiki Entirely Dedicated to Things That Don't Exist Yet",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "political": {
+    "label": "Political",
+    "count": "6 articles",
+    "isGold": true,
+    "cards": [
+      {
+        "tag": "Policy",
+        "time": "9 min",
+        "title": "Policy Shifts in Global Trade Agreements: A Full Breakdown",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Analysis",
+        "time": "11 min",
+        "title": "The Widening Funding Gap in Democratic Infrastructure",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Elections",
+        "time": "8 min",
+        "title": "Voting Systems Under Scrutiny Across Four Major Nations",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Transparency",
+        "time": "12 min",
+        "title": "Lobbying Data Released: Who Pays for Which Policy, Exactly",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "Economy",
+        "time": "7 min",
+        "title": "Central Bank Decisions and Their Immediate Political Fallout",
+        "url": "",
+        "image": ""
+      },
+      {
+        "tag": "International",
+        "time": "14 min",
+        "title": "The Quiet Reshaping of International Law Few Are Watching",
+        "url": "",
+        "image": ""
+      }
+    ]
+  },
+  "_theme": {
+    "accent": "#00FFC2",
+    "bg": "#1A1C1E",
+    "card": "#1E2124",
+    "gold": "#C9A227",
+    "slate": "#9BA4B0",
+    "white": "#E8ECF0",
+    "danger": "#FF4B6E",
+    "gridOpacity": 2,
+    "glowIntensity": 28
+  }
+}
