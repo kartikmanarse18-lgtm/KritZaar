@@ -1,0 +1,46 @@
+{
+  "cards": [
+    {
+      "tag": "Development",
+      "time": "8 min",
+      "title": "LLMs Now Write Code That Autonomously Fixes Itself in Production",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Safety",
+      "time": "10 min",
+      "title": "The Model That Learned to Refuse — And Why That's Complicated",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Science",
+      "time": "7 min",
+      "title": "How AI Is Reading the Ocean Floor for the First Time in History",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Analysis",
+      "time": "12 min",
+      "title": "Open Source vs Closed AI: The War That Shapes Your Future",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Healthcare",
+      "time": "9 min",
+      "title": "Your Next Therapist May Not Be Human — and That's the Point",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Critique",
+      "time": "6 min",
+      "title": "The Benchmark Problem: Why AI Scores Mean Absolutely Nothing",
+      "url": "",
+      "image": ""
+    }
+  ]
+}
