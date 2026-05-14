@@ -1,0 +1,46 @@
+{
+  "cards": [
+    {
+      "tag": "Policy",
+      "time": "9 min",
+      "title": "Policy Shifts in Global Trade Agreements: A Full Breakdown",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Analysis",
+      "time": "11 min",
+      "title": "The Widening Funding Gap in Democratic Infrastructure",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Elections",
+      "time": "8 min",
+      "title": "Voting Systems Under Scrutiny Across Four Major Nations",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Transparency",
+      "time": "12 min",
+      "title": "Lobbying Data Released: Who Pays for Which Policy, Exactly",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "Economy",
+      "time": "7 min",
+      "title": "Central Bank Decisions and Their Immediate Political Fallout",
+      "url": "",
+      "image": ""
+    },
+    {
+      "tag": "International",
+      "time": "14 min",
+      "title": "The Quiet Reshaping of International Law Few Are Watching",
+      "url": "",
+      "image": ""
+    }
+  ]
+}
