@@ -68,6 +68,25 @@
     .th-ai{background:linear-gradient(90deg,#06121e 0%,#1a1c1e 100%);}
     .th-interesting{background:linear-gradient(270deg,#0a1818 0%,#1a1c1e 100%);}
     .th-political{background:linear-gradient(180deg,#1c1606 0%,#1a1c1e 100%);}
+    .th-game{background:linear-gradient(135deg,#0d0a1e 0%,#1a1028 50%,#1a1c1e 100%);}
+    .card-game{border-color:rgba(138,43,226,0.15)!important;}
+    .card-game:hover{border-color:rgba(138,43,226,0.45)!important;transform:translateY(-5px);}
+    .card-game .card-tag{color:#A855F7;}
+    .card-game .card-cta{color:var(--slate);}
+    .card-game:hover .card-cta{color:#A855F7!important;letter-spacing:4px;}
+    .card-game .thumb-badge{color:#A855F7;border-color:#A855F7;}
+    .card-game .card-thumb-inner::before{background:repeating-linear-gradient(-48deg,transparent,transparent 18px,rgba(138,43,226,0.03)18px,rgba(138,43,226,0.03)19px);}
+    .game-play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(138,43,226,0.2);border:1px solid rgba(138,43,226,0.5);display:flex;align-items:center;justify-content:center;font-size:16px;pointer-events:none;}
+    /* Game iframe modal */
+    #gameModal{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);display:none;flex-direction:column;}
+    #gameModal.show{display:flex;}
+    .game-modal-bar{height:48px;background:rgba(22,24,26,0.98);border-bottom:1px solid rgba(138,43,226,0.2);display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;}
+    .game-modal-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#A855F7;letter-spacing:3px;text-transform:uppercase;flex:1;}
+    .game-modal-close{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--slate);background:none;border:1px solid rgba(155,164,176,0.2);padding:6px 16px;cursor:none;transition:color .2s,border-color .2s;}
+    .game-modal-close:hover{color:var(--white);border-color:var(--slate);}
+    .game-modal-fullscreen{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(138,43,226,0.6);background:none;border:1px solid rgba(138,43,226,0.2);padding:6px 16px;cursor:none;transition:color .2s,border-color .2s;}
+    .game-modal-fullscreen:hover{color:#A855F7;border-color:rgba(138,43,226,0.5);}
+    #gameFrame{flex:1;width:100%;border:none;background:#000;}
     /* card with image override */
     .card-thumb-inner.has-img{background:none!important;}
     .card-thumb-inner.has-img img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -157,6 +176,16 @@
     <div class="load-wrap">
       <button class="load-btn" id="loadBtn">Load More</button>
     </div>
+  </div>
+
+  <!-- Game iframe modal -->
+  <div id="gameModal">
+    <div class="game-modal-bar">
+      <span class="game-modal-title" id="gameModalTitle">Game</span>
+      <button class="game-modal-fullscreen" onclick="document.getElementById('gameFrame').requestFullscreen()">⛶ Fullscreen</button>
+      <button class="game-modal-close" onclick="closeGame()">✕ Close</button>
+    </div>
+    <iframe id="gameFrame" src="" allowfullscreen allow="fullscreen"></iframe>
   </div>
 
   <div id="polModal">
@@ -263,20 +292,25 @@
     function buildCards(tabId, isGold) {
       const cards = FEEDS[tabId].cards;
       return cards.map((c, i) => {
+        const isGame = c.type === 'game';
         const hasImg = c.image && c.image.trim() !== '';
         const thumbInner = hasImg
           ? `<div class="card-thumb-inner has-img"><img src="${escHtml(c.image)}" alt="${escHtml(c.title)}" loading="lazy" onerror="this.parentElement.classList.remove('has-img');this.remove()"></div>`
-          : `<div class="card-thumb-inner th-${tabId}"><div class="card-num">${String(i+1).padStart(2,'0')}</div><div class="thumb-badge">${escHtml(c.tag)}</div></div>`;
+          : `<div class="card-thumb-inner ${isGame ? 'th-game' : 'th-'+tabId}"><div class="card-num">${String(i+1).padStart(2,'0')}</div><div class="thumb-badge">${isGame ? '◈ GAME' : escHtml(c.tag)}</div>${isGame ? '<div class="game-play-icon">▶</div>' : ''}</div>`;
+        const clickAttr = isGame
+          ? `onclick="openGame('${escHtml(c.url)}','${escHtml(c.title)}')"` 
+          : (c.url ? `onclick="window.open('${escHtml(c.url)}','_blank')"` : '');
+        const cardClass = `card ${isGold?'card-gold':''} ${isGame?'card-game':''}`;
         return `
-          <div class="card ${isGold?'card-gold':''}" ${c.url?`onclick="window.open('${escHtml(c.url)}','_blank')"`:''}>
+          <div class="${cardClass}" ${clickAttr}>
             <div class="card-thumb">${thumbInner}</div>
             <div class="card-body">
               <div class="card-meta-row">
                 <span class="card-tag">${escHtml(c.tag)}</span>
-                <span class="card-time">${escHtml(c.time)} read</span>
+                <span class="card-time">${isGame ? 'Play now' : escHtml(c.time)+' read'}</span>
               </div>
               <h3 class="card-title">${escHtml(c.title)}</h3>
-              <button class="card-cta">${c.url?'Read →':'Coming Soon'}</button>
+              <button class="card-cta">${isGame ? 'Play →' : (c.url?'Read →':'Coming Soon')}</button>
             </div>
           </div>`;
       }).join('');
@@ -353,6 +387,21 @@
       const grid = document.getElementById('panel-'+currentTab)?.querySelector('.feed-grid');
       if (grid && !grid.querySelector('.end-note')) { note.className='end-note'; grid.after(note); }
     });
+
+    /* GAME MODAL */
+    function openGame(url, title) {
+      if (!url) return;
+      document.getElementById('gameFrame').src = url;
+      document.getElementById('gameModalTitle').textContent = title || 'Game';
+      document.getElementById('gameModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeGame() {
+      document.getElementById('gameModal').classList.remove('show');
+      document.getElementById('gameFrame').src = '';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGame(); });
 
     /* CURSOR */
     const cur = document.getElementById('cur');
