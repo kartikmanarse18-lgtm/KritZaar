@@ -7,5 +7,20 @@
       "url": "",
       "image": ""
     }
-  ]
+  ],
+  "subsections": {
+    "cred": {
+      "label": "cred",
+      "cards": [
+        {
+          "tag": "",
+          "time": "5 min",
+          "title": "Kritzaar",
+          "url": "https://kartikmanarse18-lgtm.github.io/KritZarr-games/games/0.love.html",
+          "image": "",
+          "type": "game"
+        }
+      ]
+    }
+  }
 }
