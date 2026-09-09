@@ -467,6 +467,24 @@
     ════════════════════════════════════════════ */
     let FEEDS = {};
     let currentTab = '';
+
+    // ── Deep-link hash hygiene ─────────────────────────────────────────
+    // #/article, #/section and #/game hashes are only meant to describe a
+    // *specific* shared link. switchTab/switchSubTab/switchSubSubTab/closeGame
+    // never used to touch the hash at all, so once you arrived via a shared
+    // link and then navigated elsewhere in-app, the stale hash just sat in
+    // the address bar. A reload re-read that stale hash and snapped you
+    // straight back to whatever you'd opened last instead of what was on
+    // screen. resolvingHash guards the brief window where we're deliberately
+    // opening a route *from* the hash, so we don't erase the very hash we're
+    // trying to resolve.
+    let resolvingHash = false;
+    function clearStaleHash() {
+      if (resolvingHash) return;
+      if (/^#\/(article|section|game)\//.test(location.hash)) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+    }
     let polConfirmed = false;
 
     // How many cards to show per "page" (initial + each Load More click)
@@ -711,6 +729,7 @@
        SUB-SECTION SWITCHING (viewer) — handles level-1 and level-2
     ════════════════════════════════════════════ */
     function switchSubTab(sectionId, subId) {
+      clearStaleHash();
       subTabState[sectionId] = subId;
       // Reset level-2 state when switching level-1
       delete subSubTabState[sectionId + '/' + subId];
@@ -781,6 +800,7 @@
     }
 
     function switchSubSubTab(sectionId, subId, subsubId) {
+      clearStaleHash();
       subSubTabState[sectionId + '/' + subId] = subsubId;
       const isGold = FEEDS[sectionId]?.isGold;
 
@@ -914,6 +934,7 @@
     function updateLoadBtn() {}
 
     function switchTab(tabId) {
+      clearStaleHash();
       if (tabId === 'political' && FEEDS.political?.isGold && !polConfirmed) {
         document.getElementById('polModal').classList.add('show');
         return;
@@ -1050,6 +1071,7 @@
       document.getElementById('gameModal').classList.remove('show');
       document.getElementById('gameFrame').src = '';
       document.body.style.overflow = '';
+      clearStaleHash();
     }
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
@@ -1290,20 +1312,27 @@
     async function resolveArticleFromHash() {
       const m = location.hash.match(/^#\/article\/([^/]+)\/([^/]+)$/);
       if (!m) return;
-      const sectionId = decodeURIComponent(m[1]);
-      const slug = decodeURIComponent(m[2]);
-      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
-      await fetchSection(sectionId);
-      if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
-      const hit = findCardBySlug(sectionId, slug);
-      if (!hit) { showToast('Article not found'); return; }
-      history.replaceState({ kritzaarArticle: true, sectionId, sub: hit.sub, subsub: hit.subsub, idx: hit.idx }, '', location.hash);
-      openArticle(sectionId, hit.sub, hit.subsub, hit.idx, { pushHistory: false });
+      resolvingHash = true;
+      try {
+        const sectionId = decodeURIComponent(m[1]);
+        const slug = decodeURIComponent(m[2]);
+        if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+        await fetchSection(sectionId);
+        if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
+        const hit = findCardBySlug(sectionId, slug);
+        if (!hit) { showToast('Article not found'); return; }
+        history.replaceState({ kritzaarArticle: true, sectionId, sub: hit.sub, subsub: hit.subsub, idx: hit.idx }, '', location.hash);
+        openArticle(sectionId, hit.sub, hit.subsub, hit.idx, { pushHistory: false });
+      } finally {
+        resolvingHash = false;
+      }
     }
 
     // Renders a section (fetching + building its panel if it hasn't been opened yet) without
     // relying on switchTab's internal .then() timing — needed so hash resolution can await it.
     async function openSectionRoute(sectionId, sub, subsub) {
+      resolvingHash = true;
+      try {
       if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
       await fetchSection(sectionId);
 
@@ -1361,6 +1390,9 @@
 
       if (sub) switchSubTab(sectionId, sub);
       if (sub && subsub) switchSubSubTab(sectionId, sub, subsub);
+      } finally {
+        resolvingHash = false;
+      }
     }
 
     async function resolveSectionFromHash() {
@@ -1375,16 +1407,21 @@
     async function resolveGameFromHash() {
       const m = location.hash.match(/^#\/game\/([^/]+)\/([^/]+)$/);
       if (!m) return;
-      const sectionId = decodeURIComponent(m[1]);
-      const slug = decodeURIComponent(m[2]);
-      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
-      await fetchSection(sectionId);
-      const hit = findCardBySlug(sectionId, slug);
-      if (!hit) { showToast('Game not found'); return; }
-      const arr = resolveCardsArray(sectionId, hit.sub, hit.subsub);
-      const c = arr[hit.idx];
-      if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
-      openGame(c.url, c.title);
+      resolvingHash = true;
+      try {
+        const sectionId = decodeURIComponent(m[1]);
+        const slug = decodeURIComponent(m[2]);
+        if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+        await fetchSection(sectionId);
+        const hit = findCardBySlug(sectionId, slug);
+        if (!hit) { showToast('Game not found'); return; }
+        const arr = resolveCardsArray(sectionId, hit.sub, hit.subsub);
+        const c = arr[hit.idx];
+        if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
+        openGame(c.url, c.title);
+      } finally {
+        resolvingHash = false;
+      }
     }
 
     /* ══ SCROLL VELOCITY SYSTEM
