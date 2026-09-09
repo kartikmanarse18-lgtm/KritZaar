@@ -326,6 +326,43 @@
     @media(max-width:900px){.panel-subsec-bar,.panel-subsubsec-bar{padding:0 24px;}}
     @media(max-width:580px){.panel-subsec-bar,.panel-subsubsec-bar{padding:0 16px;}.pssb{padding:8px 12px;font-size:9px;}.psssb{padding:6px 10px;font-size:8px;}}
 
+    /* ══ ARTICLE READER PAGE ══ */
+    .card{cursor:pointer;}
+    .article-page{position:fixed;inset:0;z-index:1600;background:var(--bg);display:none;flex-direction:column;opacity:0;transform:translateY(24px);transition:opacity .35s ease,transform .35s cubic-bezier(.25,.46,.45,.94);}
+    .article-page.show{display:flex;opacity:1;transform:translateY(0);}
+    .article-topbar{height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(22,24,26,0.97);border-bottom:1px solid rgba(0,255,194,0.08);position:relative;z-index:2;}
+    .article-back,.article-share{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);background:none;border:1px solid rgba(0,255,194,0.25);padding:8px 16px;cursor:pointer;transition:background .2s,color .2s;}
+    .article-back:hover,.article-share:hover{background:var(--mint);color:var(--bg);}
+    .article-page.gold-article .article-back,.article-page.gold-article .article-share{color:var(--gold);border-color:rgba(201,162,39,0.3);}
+    .article-page.gold-article .article-back:hover,.article-page.gold-article .article-share:hover{background:var(--gold);color:var(--bg);}
+    .article-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    .article-hero{width:100%;height:280px;background-size:cover;background-position:center;background-color:#0d0f11;position:relative;}
+    .article-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0)0%,var(--bg)100%);}
+    .article-content-wrap{max-width:720px;margin:0 auto;padding:36px 24px 100px;}
+    .article-tag{display:inline-block;font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0a0c0e;background:var(--mint);padding:4px 10px;border-radius:3px;margin-bottom:16px;}
+    .article-page.gold-article .article-tag{background:var(--gold);}
+    .article-title{font-family:'Orbitron',sans-serif;font-size:clamp(22px,4vw,36px);font-weight:900;color:var(--white);line-height:1.35;margin-bottom:14px;}
+    .article-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(155,164,176,0.5);margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .article-body{font-size:16px;line-height:1.85;color:var(--slate);}
+    .article-body p{margin-bottom:20px;}
+    .article-empty{font-size:13px;letter-spacing:1px;color:rgba(155,164,176,0.4);font-style:italic;}
+    .article-source{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);}
+    .article-source a{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mint);text-decoration:none;border-bottom:1px solid rgba(0,255,194,0.3);padding-bottom:2px;}
+    .article-page.gold-article .article-source a{color:var(--gold);border-color:rgba(201,162,39,0.3);}
+    @media(max-width:580px){.article-hero{height:200px;}.article-content-wrap{padding:24px 18px 80px;}.article-body{font-size:15px;}}
+    #krzToast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E2124;border:1px solid rgba(0,255,194,0.25);padding:12px 22px;font-size:10px;letter-spacing:2.5px;color:var(--mint);text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:3000;}
+    #krzToast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    .card-footer-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .card-share-btn{background:none;border:1px solid rgba(155,164,176,0.28);color:rgba(155,164,176,0.7);font-size:11px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,color .2s,background .2s;flex-shrink:0;line-height:1;padding:0;}
+    .card-share-btn:hover{border-color:var(--mint);color:var(--mint);background:rgba(0,255,194,0.08);}
+    .card-gold .card-share-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.08);}
+    .card-game .card-share-btn:hover{border-color:#A855F7;color:#A855F7;background:rgba(168,85,247,0.08);}
+    .panel-share-btn{margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--mint);background:none;border:1px solid rgba(0,255,194,0.25);padding:7px 14px;cursor:pointer;transition:background .2s,color .2s;flex-shrink:0;}
+    .panel-share-btn:hover{background:var(--mint);color:var(--bg);}
+    .panel-name.gold-head ~ .panel-share-btn{color:var(--gold);border-color:rgba(201,162,39,0.3);}
+    @media(max-width:580px){.panel-share-btn{padding:6px 10px;font-size:9px;letter-spacing:1.5px;}}
+
     /* Responsive */
     @media(max-width:1100px){.feed-grid{grid-template-columns:repeat(3,1fr);grid-auto-rows:400px;gap:16px;}}
     @media(max-width:900px){.feed-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:380px;gap:14px;}.krz-bar,.panel-hdr,.feed-panel,.load-wrap,.pol-banner{padding-left:24px;padding-right:24px;}.hub-tabbar{padding:0 24px;}}
@@ -359,6 +396,7 @@
     <div class="panel-hdr">
       <h2 class="panel-name" id="panelName">Loading…</h2>
       <span class="panel-count" id="panelCount"></span>
+      <button class="panel-share-btn" id="panelShareBtn" title="Share this section">⤴ Share Section</button>
     </div>
     <div class="pol-banner" id="polBanner">
       <div class="pol-banner-icon">⚠</div>
@@ -379,6 +417,26 @@
     </div>
     <iframe id="gameFrame" src="" allowfullscreen allow="fullscreen"></iframe>
   </div>
+
+  <!-- Article reader page -->
+  <div id="articlePage" class="article-page">
+    <div class="article-topbar">
+      <button class="article-back" onclick="closeArticle()">← Back</button>
+      <button class="article-share" onclick="shareCurrentArticle()">⤴ Share</button>
+    </div>
+    <div class="article-scroll" id="articleScroll">
+      <div class="article-hero" id="articleHero"></div>
+      <div class="article-content-wrap">
+        <span class="article-tag" id="articleTag"></span>
+        <h1 class="article-title" id="articleTitleEl"></h1>
+        <div class="article-meta" id="articleMeta"></div>
+        <div class="article-body" id="articleBody"></div>
+        <div class="article-source" id="articleSource"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="krzToast"></div>
 
   <div id="polModal">
     <div class="pol-box">
@@ -507,7 +565,8 @@
       }
     }
 
-    function buildCards(tabId, isGold, limit, cardsOverride) {
+    function buildCards(tabId, isGold, limit, cardsOverride, ctx) {
+      ctx = ctx || {};
       const cards = cardsOverride !== undefined ? cardsOverride : FEEDS[tabId].cards;
       const slice = (limit != null) ? cards.slice(0, limit) : cards;
       return slice.map((c, i) => {
@@ -524,18 +583,18 @@
           ? `<div class="card-thumb-inner has-img"><img src="${escHtml(c.image)}" alt="${escHtml(c.title)}" loading="lazy" onerror="this.closest('.card-thumb').querySelector('.card-thumb-blur')?.remove();this.style.objectFit='cover'"></div>`
           : `<div class="card-thumb-inner ${isGame ? 'th-game' : 'th-'+tabId}"><div class="card-num">${String(i+1).padStart(2,'0')}</div>${isGame ? '<div class="game-play-icon">▶</div>' : ''}</div>`;
 
-        const clickAttr = isGame
-          ? `onclick="openGame('${escHtml(c.url)}','${escHtml(c.title)}')"` 
-          : (c.url ? `onclick="window.open('${escHtml(c.url)}','_blank')"` : '');
+        // Kind + location data — resolved by the delegated click handler.
+        // Every card now opens something in-site (article page or game modal).
+        const dataAttrs = `data-section="${tabId}" data-sub="${ctx.sub||''}" data-subsub="${ctx.subsub||''}" data-idx="${i}" data-kind="${isGame?'game':'article'}"`;
 
         const cardClass = `card ${isGold?'card-gold':''} ${isGame?'card-game':''}`.trim();
-        const ctaLabel = isGame ? 'Play' : (c.url ? 'Read' : 'Soon');
+        const ctaLabel = isGame ? 'Play' : 'Read';
         const timeLabel = isGame ? '◈ Interactive' : (c.time ? c.time + ' read' : '');
         const desc = c.desc || c.description || '';
         const tagLabel = isGame ? '◈ GAME' : escHtml(c.tag);
 
         return `
-          <div class="${cardClass}" ${clickAttr}>
+          <div class="${cardClass}" ${dataAttrs}>
             <div class="card-thumb">
               ${blurBg}
               ${thumbInner}
@@ -546,7 +605,10 @@
               ${desc ? `<p class="card-desc">${escHtml(desc)}</p>` : ''}
               <div class="card-footer">
                 <span class="card-time">${timeLabel}</span>
-                <button class="card-cta">${ctaLabel} <span class="arr">→</span></button>
+                <div class="card-footer-actions">
+                  <button class="card-share-btn" title="Share">⤴</button>
+                  <button class="card-cta">${ctaLabel} <span class="arr">→</span></button>
+                </div>
               </div>
             </div>
             <!-- Hover overlay: shows full article preview on cursor enter -->
@@ -711,7 +773,7 @@
         gsap.fromTo(newCards, {y:16,opacity:0}, {y:0,opacity:1,duration:.3,ease:'power2.out',stagger:.04});
         placeSentinel(grid, sectionId);
       } else {
-        grid.innerHTML = buildCards(sectionId, isGold, null, cards);
+        grid.innerHTML = buildCards(sectionId, isGold, null, cards, {sub: subId});
         tabPage[sectionId] = cards.length;
         const newCards = Array.from(grid.querySelectorAll('.card'));
         gsap.fromTo(newCards, {y:16,opacity:0}, {y:0,opacity:1,duration:.3,ease:'power2.out',stagger:.04});
@@ -739,7 +801,7 @@
 
       if (sentinelObserver) sentinelObserver.disconnect();
       grid.querySelectorAll('.feed-sentinel,.auto-loading').forEach(el => el.remove());
-      grid.innerHTML = buildCards(sectionId, isGold, null, cards);
+      grid.innerHTML = buildCards(sectionId, isGold, null, cards, {sub: subId, subsub: (subsubId === '__sub__' ? '' : subsubId)});
       tabPage[sectionId] = cards.length;
       const newCards = Array.from(grid.querySelectorAll('.card'));
       gsap.fromTo(newCards, {y:16,opacity:0}, {y:0,opacity:1,duration:.3,ease:'power2.out',stagger:.04});
@@ -817,19 +879,19 @@
           const thumbInner = hasImg
             ? `<div class="card-thumb-inner has-img"><img src="${escHtml(c.image)}" alt="${escHtml(c.title)}" loading="lazy"></div>`
             : `<div class="card-thumb-inner ${isGame ? 'th-game' : 'th-'+tabId}"><div class="card-num">${String(idx+1).padStart(2,'0')}</div>${isGame ? '<div class="game-play-icon">▶</div>' : ''}</div>`;
-          const clickAttr = isGame ? `onclick="openGame('${escHtml(c.url)}','${escHtml(c.title)}')"` : (c.url ? `onclick="window.open('${escHtml(c.url)}','_blank')"` : '');
+          const dataAttrs = `data-section="${tabId}" data-sub="" data-subsub="" data-idx="${idx}" data-kind="${isGame?'game':'article'}"`;
           const cardClass = `card ${isGold?'card-gold':''} ${isGame?'card-game':''}`.trim();
-          const ctaLabel = isGame ? 'Play' : (c.url ? 'Read' : 'Soon');
+          const ctaLabel = isGame ? 'Play' : 'Read';
           const timeLabel = isGame ? '◈ Interactive' : (c.time ? c.time + ' read' : '');
           const desc = c.desc || c.description || '';
           const tagLabel = isGame ? '◈ GAME' : escHtml(c.tag);
-          return `<div class="${cardClass}" ${clickAttr}>
+          return `<div class="${cardClass}" ${dataAttrs}>
               <div class="card-thumb">${blurBg}${thumbInner}</div>
               <div class="card-body">
                 <span class="card-tag-pill">${tagLabel}</span>
                 <h3 class="card-title">${escHtml(c.title)}</h3>
                 ${desc ? `<p class="card-desc">${escHtml(desc)}</p>` : ''}
-                <div class="card-footer"><span class="card-time">${timeLabel}</span><button class="card-cta">${ctaLabel} <span class="arr">→</span></button></div>
+                <div class="card-footer"><span class="card-time">${timeLabel}</span><div class="card-footer-actions"><button class="card-share-btn" title="Share">⤴</button><button class="card-cta">${ctaLabel} <span class="arr">→</span></button></div></div>
               </div>
               <div class="card-overlay">
                 <div class="ov-tag">${tagLabel}</div>
@@ -989,7 +1051,341 @@
       document.getElementById('gameFrame').src = '';
       document.body.style.overflow = '';
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGame(); });
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      closeGame();
+      if (document.getElementById('articlePage')?.classList.contains('show')) closeArticle();
+    });
+
+    /* ══════════════════════════════════════════
+       ARTICLE ROUTING — every card opens something in-site.
+       Articles render on their own page at #/article/{section}/{slug}
+       Games still open the fullscreen iframe modal.
+    ══════════════════════════════════════════ */
+
+    // Resolve which cards array a click came from (main / sub-section / sub-sub-section)
+    function resolveCardsArray(sectionId, sub, subsub) {
+      const f = FEEDS[sectionId];
+      if (!f) return null;
+      if (!sub) return f.cards || [];
+      const subObj = f.subsections?.[sub];
+      if (!subObj) return null;
+      if (!subsub) return subObj.cards || [];
+      return subObj.subsections?.[subsub]?.cards || [];
+    }
+
+    function slugify(s) {
+      return String(s || '').toLowerCase().trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+    }
+    function articleSlug(c, idx) {
+      return (c.slug ? slugify(c.slug) : slugify(c.title)) || ('article-' + idx);
+    }
+
+    // Single delegated listener handles every card, current and future (sentinel-loaded, sub-tabs, etc.)
+    document.getElementById('panelsContainer').addEventListener('click', e => {
+      const cardEl = e.target.closest('.card');
+      if (!cardEl) return;
+      const sectionId = cardEl.dataset.section;
+      const sub = cardEl.dataset.sub || null;
+      const subsub = cardEl.dataset.subsub || null;
+      const idx = parseInt(cardEl.dataset.idx, 10);
+      const kind = cardEl.dataset.kind;
+
+      // Share icon — share this exact card without opening it
+      if (e.target.closest('.card-share-btn')) {
+        e.stopPropagation();
+        const info = cardShareInfo(sectionId, sub, subsub, idx, kind);
+        if (info) shareUrl(info.title, info.url);
+        return;
+      }
+
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      if (!arr || !arr[idx]) return;
+      const c = arr[idx];
+      if (kind === 'game') {
+        openGame(c.url, c.title);
+      } else {
+        openArticle(sectionId, sub, subsub, idx);
+      }
+    });
+
+    let currentArticle = null;
+
+    function openArticle(sectionId, sub, subsub, idx, opts) {
+      opts = opts || {};
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      if (!arr || !arr[idx]) return;
+      const c = arr[idx];
+      const f = FEEDS[sectionId];
+      const isGold = !!f?.isGold;
+      const slug = articleSlug(c, idx);
+      currentArticle = { sectionId, sub, subsub, idx, slug, title: c.title };
+
+      const page = document.getElementById('articlePage');
+      page.classList.toggle('gold-article', isGold);
+
+      const hero = document.getElementById('articleHero');
+      if (c.image) { hero.style.display = ''; hero.style.backgroundImage = `url('${c.image.replace(/'/g, "\\'")}')`; }
+      else { hero.style.display = 'none'; hero.style.backgroundImage = ''; }
+
+      document.getElementById('articleTag').textContent = c.tag || '';
+      document.getElementById('articleTitleEl').textContent = c.title || '';
+      const timeLabel = c.time ? c.time + ' read' : '';
+      document.getElementById('articleMeta').textContent = [f?.label || sectionId, timeLabel].filter(Boolean).join('  ·  ');
+
+      const bodyEl = document.getElementById('articleBody');
+      const rawBody = (c.content || '').trim();
+      if (rawBody) {
+        bodyEl.innerHTML = rawBody.split(/\n{2,}/).map(p => `<p>${escHtml(p).replace(/\n/g, '<br>')}</p>`).join('');
+      } else {
+        const fallback = c.desc || c.description || '';
+        bodyEl.innerHTML = `<p class="article-empty">${fallback ? escHtml(fallback) : 'Full article coming soon.'}</p>`;
+      }
+
+      const srcEl = document.getElementById('articleSource');
+      srcEl.innerHTML = c.url ? `<a href="${escHtml(c.url)}" target="_blank" rel="noopener">Read original source ↗</a>` : '';
+
+      page.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('articleScroll').scrollTop = 0;
+
+      if (opts.pushHistory !== false) {
+        history.pushState({ kritzaarArticle: true, sectionId, sub, subsub, idx }, '',
+          '#/article/' + encodeURIComponent(sectionId) + '/' + encodeURIComponent(slug));
+      }
+    }
+
+    function hideArticleUI() {
+      document.getElementById('articlePage')?.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function closeArticle() {
+      if (history.state && history.state.kritzaarArticle) {
+        history.back();
+      } else {
+        hideArticleUI();
+        if (location.hash.startsWith('#/article/')) history.pushState(null, '', location.pathname + location.search);
+      }
+    }
+
+    window.addEventListener('popstate', e => {
+      if (e.state && e.state.kritzaarArticle) {
+        openArticle(e.state.sectionId, e.state.sub, e.state.subsub, e.state.idx, { pushHistory: false });
+      } else {
+        hideArticleUI();
+      }
+    });
+
+    // Covers pasting/typing a share link into the address bar while the app is already running
+    window.addEventListener('hashchange', () => {
+      if (document.getElementById('articlePage')?.classList.contains('show')) return;
+      if (location.hash.startsWith('#/article/')) resolveArticleFromHash();
+      else if (location.hash.startsWith('#/section/')) resolveSectionFromHash();
+      else if (location.hash.startsWith('#/game/')) resolveGameFromHash();
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('krzToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    // Generic share helper — native share sheet on mobile, clipboard copy elsewhere
+    async function shareUrl(title, url) {
+      try {
+        if (navigator.share) {
+          await navigator.share({ title, url });
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(url);
+          showToast('Link copied ✓');
+        } else {
+          window.prompt('Copy this link:', url);
+        }
+      } catch (_) { /* user cancelled the native share sheet — ignore */ }
+    }
+
+    async function shareCurrentArticle() {
+      if (!currentArticle) return;
+      const url = location.origin + location.pathname + '#/article/' +
+        encodeURIComponent(currentArticle.sectionId) + '/' + encodeURIComponent(currentArticle.slug);
+      await shareUrl(currentArticle.title, url);
+    }
+
+    // Build a shareable {title, url} for any single card — article or game
+    function cardShareInfo(sectionId, sub, subsub, idx, kind) {
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      const c = arr && arr[idx];
+      if (!c) return null;
+      const slug = articleSlug(c, idx);
+      const route = kind === 'game' ? 'game' : 'article';
+      const url = location.origin + location.pathname + '#/' + route + '/' +
+        encodeURIComponent(sectionId) + '/' + encodeURIComponent(slug);
+      return { title: c.title, url };
+    }
+
+    // Build a shareable {label, url} for the currently active section/sub/sub-sub view
+    function currentSectionShareInfo() {
+      const sectionId = currentTab;
+      const sub = (subTabState[sectionId] && subTabState[sectionId] !== '__main__') ? subTabState[sectionId] : null;
+      const subsub = sub ? (() => {
+        const v = subSubTabState[sectionId + '/' + sub];
+        return (v && v !== '__sub__') ? v : null;
+      })() : null;
+
+      let label = FEEDS[sectionId]?.label || sectionId;
+      let url = location.origin + location.pathname + '#/section/' + encodeURIComponent(sectionId);
+      if (sub) {
+        const subObj = FEEDS[sectionId]?.subsections?.[sub];
+        if (subObj) label += ' — ' + subObj.label;
+        url += '/' + encodeURIComponent(sub);
+        if (subsub) {
+          const ssObj = subObj?.subsections?.[subsub];
+          if (ssObj) label += ' — ' + ssObj.label;
+          url += '/' + encodeURIComponent(subsub);
+        }
+      }
+      return { label, url };
+    }
+
+    async function shareCurrentSection() {
+      const { label, url } = currentSectionShareInfo();
+      await shareUrl(label, url);
+    }
+    document.getElementById('panelShareBtn')?.addEventListener('click', shareCurrentSection);
+
+    // Find a card by slug anywhere in a section (main / sub / sub-sub) for deep-link resolution
+    function findCardBySlug(sectionId, slug) {
+      const f = FEEDS[sectionId];
+      if (!f) return null;
+      const scan = (cards, sub, subsub) => {
+        if (!cards) return null;
+        for (let i = 0; i < cards.length; i++) {
+          if (articleSlug(cards[i], i) === slug) return { sub, subsub, idx: i };
+        }
+        return null;
+      };
+      let hit = scan(f.cards, null, null);
+      if (hit) return hit;
+      const subsecs = f.subsections || {};
+      for (const subId of Object.keys(subsecs)) {
+        hit = scan(subsecs[subId].cards, subId, null);
+        if (hit) return hit;
+        const subsubs = subsecs[subId].subsections || {};
+        for (const ssId of Object.keys(subsubs)) {
+          hit = scan(subsubs[ssId].cards, subId, ssId);
+          if (hit) return hit;
+        }
+      }
+      return null;
+    }
+
+    // On load / on manual hash edit: open the shared article directly
+    async function resolveArticleFromHash() {
+      const m = location.hash.match(/^#\/article\/([^/]+)\/([^/]+)$/);
+      if (!m) return;
+      const sectionId = decodeURIComponent(m[1]);
+      const slug = decodeURIComponent(m[2]);
+      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+      await fetchSection(sectionId);
+      if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
+      const hit = findCardBySlug(sectionId, slug);
+      if (!hit) { showToast('Article not found'); return; }
+      history.replaceState({ kritzaarArticle: true, sectionId, sub: hit.sub, subsub: hit.subsub, idx: hit.idx }, '', location.hash);
+      openArticle(sectionId, hit.sub, hit.subsub, hit.idx, { pushHistory: false });
+    }
+
+    // Renders a section (fetching + building its panel if it hasn't been opened yet) without
+    // relying on switchTab's internal .then() timing — needed so hash resolution can await it.
+    async function openSectionRoute(sectionId, sub, subsub) {
+      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+      await fetchSection(sectionId);
+
+      const panel = document.getElementById('panel-' + sectionId);
+      const isGold = FEEDS[sectionId]?.isGold;
+
+      if (panel && panel.dataset.unrendered === '1') {
+        delete panel.dataset.unrendered;
+        tabPage[sectionId] = PAGE_SIZE;
+        const grid = panel.querySelector('.feed-grid');
+        grid.innerHTML = buildCards(sectionId, isGold, PAGE_SIZE);
+
+        const f = FEEDS[sectionId];
+        const subsecs = f.subsections || {};
+        const subKeys = Object.keys(subsecs);
+        if (subKeys.length > 0 && !document.getElementById('subbar-' + sectionId)) {
+          const subBar = document.createElement('div');
+          subBar.className = 'panel-subsec-bar';
+          subBar.id = 'subbar-' + sectionId;
+          const mainBtn = document.createElement('button');
+          mainBtn.className = 'pssb active';
+          mainBtn.dataset.sub = '__main__';
+          mainBtn.innerHTML = `Main <span class="pssb-count">${f.cards.length}</span>`;
+          mainBtn.addEventListener('click', () => switchSubTab(sectionId, '__main__'));
+          subBar.appendChild(mainBtn);
+          subKeys.forEach(subId => {
+            const subObj = subsecs[subId];
+            const subBtn = document.createElement('button');
+            subBtn.className = 'pssb';
+            subBtn.dataset.sub = subId;
+            subBtn.innerHTML = `${escHtml(subObj.label)} <span class="pssb-count">${(subObj.cards||[]).length}</span>`;
+            subBtn.addEventListener('click', () => switchSubTab(sectionId, subId));
+            subBar.appendChild(subBtn);
+          });
+          panel.insertBefore(subBar, grid);
+          if (!document.getElementById('subsubbar-' + sectionId)) {
+            const subSubBar = document.createElement('div');
+            subSubBar.className = 'panel-subsubsec-bar';
+            subSubBar.id = 'subsubbar-' + sectionId;
+            panel.insertBefore(subSubBar, grid);
+          }
+        } else if (!document.getElementById('subsubbar-' + sectionId)) {
+          const subSubBar = document.createElement('div');
+          subSubBar.className = 'panel-subsubsec-bar';
+          subSubBar.id = 'subsubbar-' + sectionId;
+          panel.insertBefore(subSubBar, grid);
+        }
+
+        currentTab = sectionId;
+        finishSwitch(sectionId, panel, isGold);
+        placeSentinel(grid, sectionId);
+      } else if (currentTab !== sectionId) {
+        switchTab(sectionId);
+      }
+
+      if (sub) switchSubTab(sectionId, sub);
+      if (sub && subsub) switchSubSubTab(sectionId, sub, subsub);
+    }
+
+    async function resolveSectionFromHash() {
+      const m = location.hash.match(/^#\/section\/([^/]+)(?:\/([^/]+))?(?:\/([^/]+))?$/);
+      if (!m) return;
+      const sectionId = decodeURIComponent(m[1]);
+      const sub = m[2] ? decodeURIComponent(m[2]) : null;
+      const subsub = m[3] ? decodeURIComponent(m[3]) : null;
+      await openSectionRoute(sectionId, sub, subsub);
+    }
+
+    async function resolveGameFromHash() {
+      const m = location.hash.match(/^#\/game\/([^/]+)\/([^/]+)$/);
+      if (!m) return;
+      const sectionId = decodeURIComponent(m[1]);
+      const slug = decodeURIComponent(m[2]);
+      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+      await fetchSection(sectionId);
+      const hit = findCardBySlug(sectionId, slug);
+      if (!hit) { showToast('Game not found'); return; }
+      const arr = resolveCardsArray(sectionId, hit.sub, hit.subsub);
+      const c = arr[hit.idx];
+      if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
+      openGame(c.url, c.title);
+    }
 
     /* ══ SCROLL VELOCITY SYSTEM
        Measures pixels/ms. Above threshold → body.fast-scroll class added,
@@ -1088,6 +1484,9 @@
             gsap.from(initCards, {y:20,opacity:0,duration:.4,ease:'power2.out',stagger:.05,delay:.1});
           }
         } catch(_) {}
+        if (location.hash.startsWith('#/article/')) resolveArticleFromHash();
+        else if (location.hash.startsWith('#/section/')) resolveSectionFromHash();
+        else if (location.hash.startsWith('#/game/')) resolveGameFromHash();
       }, 800);
     })();
   </script>
