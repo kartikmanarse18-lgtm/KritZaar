@@ -246,6 +246,15 @@
     .game-modal-fullscreen{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(138,43,226,0.6);background:none;border:1px solid rgba(138,43,226,0.2);padding:6px 16px;cursor:pointer;transition:color .2s,border-color .2s;}
     .game-modal-fullscreen:hover{color:#A855F7;border-color:rgba(138,43,226,0.5);}
     #gameFrame{flex:1;width:100%;border:none;background:#000;}
+    .game-modal-body{position:relative;flex:1;display:flex;overflow:hidden;}
+    .game-load-status{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(22,24,26,0.92);border:1px solid rgba(138,43,226,0.25);border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);transition:opacity .3s;pointer-events:none;}
+    .game-load-status.hidden{opacity:0;}
+    .game-load-status .s-dot{width:7px;height:7px;border-radius:50%;background:#A855F7;animation:blink .8s ease-in-out infinite;}
+    .game-load-issue{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:2;display:none;flex-direction:column;align-items:center;gap:10px;padding:16px 22px;background:rgba(22,24,26,0.96);border:1px solid rgba(255,75,110,0.25);border-radius:8px;max-width:320px;text-align:center;}
+    .game-load-issue.show{display:flex;}
+    .game-load-issue p{font-size:11px;color:var(--slate);letter-spacing:0.5px;line-height:1.5;}
+    .game-load-issue .btn-slate-sm{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--white);border:1px solid rgba(155,164,176,0.3);background:none;padding:7px 16px;cursor:pointer;border-radius:2px;transition:border-color .2s,color .2s;}
+    .game-load-issue .btn-slate-sm:hover{border-color:#A855F7;color:#A855F7;}
     .load-wrap{padding:0 52px 80px;display:flex;justify-content:center;}
     /* Load More button hidden — auto-load via IntersectionObserver sentinel */
     #loadBtn{display:none!important;}
@@ -367,8 +376,60 @@
     @media(max-width:1100px){.feed-grid{grid-template-columns:repeat(3,1fr);grid-auto-rows:400px;gap:16px;}}
     @media(max-width:900px){.feed-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:380px;gap:14px;}.krz-bar,.panel-hdr,.feed-panel,.load-wrap,.pol-banner{padding-left:24px;padding-right:24px;}.hub-tabbar{padding:0 24px;}}
     @media(max-width:580px){.feed-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:300px;gap:10px;}.card-thumb{height:180px!important;}.krz-bar{padding:28px 20px 24px;flex-direction:column;align-items:flex-start;gap:12px;}.krz-meta{text-align:left;}.krz-wordmark{font-size:clamp(32px,10vw,56px);}.panel-hdr{padding:20px 20px 16px;}.feed-panel,.load-wrap,.pol-banner{padding-left:16px;padding-right:16px;}.hub-tabbar{padding:0 16px;}.htab{padding:0 12px;font-size:10px;letter-spacing:1.5px;}.card-title{font-size:11px;}.status{bottom:16px;right:20px;font-size:8px;}.card-desc{display:none;}.card-body{padding:10px 12px 12px;}}
+
+    /* ══ SITEWIDE SEARCH ══ */
+    .search-wrap{position:relative;max-width:420px;margin:0 auto;padding:0 32px;width:100%;}
+    .search-input-row{position:relative;display:flex;align-items:center;}
+    .search-icon{position:absolute;left:14px;font-size:13px;color:rgba(155,164,176,0.5);pointer-events:none;}
+    #siteSearchInput{width:100%;background:var(--card);border:1px solid rgba(155,164,176,0.18);border-radius:20px;padding:9px 36px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:1px;color:var(--white);transition:border-color .2s;}
+    #siteSearchInput:focus{outline:none;border-color:rgba(0,255,194,0.4);}
+    .search-clear{position:absolute;right:10px;background:none;border:none;color:rgba(155,164,176,0.5);font-size:14px;cursor:pointer;display:none;padding:4px;}
+    .search-wrap.has-query .search-clear{display:block;}
+    .search-results{position:absolute;top:calc(100% + 8px);left:32px;right:32px;background:#1E2124;border:1px solid rgba(0,255,194,0.15);border-radius:8px;max-height:420px;overflow-y:auto;z-index:250;display:none;box-shadow:0 12px 32px rgba(0,0,0,0.5);}
+    .search-results.show{display:block;}
+    .search-result-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
+    .search-result-item:last-child{border-bottom:none;}
+    .search-result-item:hover{background:rgba(0,255,194,0.06);}
+    .search-result-thumb{width:38px;height:38px;border-radius:4px;background-size:cover;background-position:center;background-color:#0d0f11;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(155,164,176,0.4);}
+    .search-result-text{min-width:0;flex:1;}
+    .search-result-title{font-size:12px;color:var(--white);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .search-result-meta{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(155,164,176,0.5);margin-top:2px;}
+    .search-empty,.search-loading{padding:20px 16px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(155,164,176,0.4);text-align:center;}
+    @media(max-width:580px){.search-wrap{padding:0 16px;}.search-results{left:16px;right:16px;}}
+
+    /* ══ 404 / NOT FOUND ══ */
+    .not-found-page{position:fixed;inset:0;z-index:1700;background:var(--bg);display:none;align-items:center;justify-content:center;text-align:center;padding:24px;}
+    .not-found-page.show{display:flex;}
+    .not-found-page .nf-code{font-family:'Orbitron',sans-serif;font-size:clamp(48px,14vw,96px);font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(0,255,194,0.5);letter-spacing:6px;}
+    .not-found-page .nf-msg{margin-top:8px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);max-width:340px;}
+    .not-found-page button{margin-top:28px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);background:none;border:1px solid rgba(0,255,194,0.3);padding:12px 26px;cursor:pointer;transition:background .2s,color .2s;}
+    .not-found-page button:hover{background:var(--mint);color:var(--bg);}
+
+    /* ══ BOOKMARKS ══ */
+    .card-bookmark-btn{background:none;border:1px solid rgba(155,164,176,0.28);color:rgba(155,164,176,0.7);font-size:11px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,color .2s,background .2s;flex-shrink:0;line-height:1;padding:0;}
+    .card-bookmark-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.08);}
+    .card-bookmark-btn.is-saved{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.1);}
+    .article-bookmark{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);background:none;border:1px solid rgba(0,255,194,0.25);padding:8px 16px;cursor:pointer;transition:background .2s,color .2s;margin-right:8px;}
+    .article-bookmark:hover{background:var(--mint);color:var(--bg);}
+    .article-bookmark.is-saved{color:var(--gold);border-color:rgba(201,162,39,0.3);}
+    .article-bookmark.is-saved:hover{background:var(--gold);color:var(--bg);}
+    .htab-saved{margin-left:auto;}
+    @media(max-width:580px){.article-bookmark{padding:6px 10px;font-size:9px;letter-spacing:1.5px;}}
+
+    /* ══ RELATED ARTICLES ══ */
+    .article-related{margin-top:40px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.06);}
+    .related-heading{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--slate);margin-bottom:16px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+    .related-card{cursor:pointer;background:var(--card);border-radius:6px;overflow:hidden;transition:transform .2s;}
+    .related-card:hover{transform:translateY(-2px);}
+    .related-thumb{height:90px;background-size:cover;background-position:center;background-color:#0d0f11;display:flex;align-items:center;justify-content:center;color:rgba(155,164,176,0.4);font-size:20px;}
+    .related-body{padding:10px 12px;}
+    .related-tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mint);}
+    .article-page.gold-article .related-tag{color:var(--gold);}
+    .related-body h4{margin-top:6px;font-size:12px;font-weight:500;color:var(--white);line-height:1.35;}
   </style>
 </head>
+
 <body>
 
   <!-- Loading screen -->
@@ -389,6 +450,15 @@
       <p>Dark-mode content hub</p>
       <a href="#">↑ Begin the climb</a>
     </div>
+  </div>
+
+  <div class="search-wrap" id="searchWrap">
+    <div class="search-input-row">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="siteSearchInput" placeholder="Search all sections…" autocomplete="off">
+      <button class="search-clear" id="searchClearBtn" title="Clear">✕</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
   </div>
 
   <div class="hub" id="hub">
@@ -415,14 +485,27 @@
       <button class="game-modal-fullscreen" onclick="document.getElementById('gameFrame').requestFullscreen()">⛶ Fullscreen</button>
       <button class="game-modal-close" onclick="closeGame()">✕ Close</button>
     </div>
-    <iframe id="gameFrame" src="" allowfullscreen allow="fullscreen"></iframe>
+    <div class="game-modal-body">
+      <div id="gameLoadStatus" class="game-load-status">
+        <div class="s-dot"></div><span>Loading game…</span>
+      </div>
+      <div id="gameLoadIssue" class="game-load-issue">
+        <p>Still not showing up? Some games block embedding.</p>
+        <button class="btn-slate-sm" id="gameRetryBtn">↻ Retry</button>
+        <button class="btn-slate-sm" id="gameOpenTabBtn">↗ Open in new tab</button>
+      </div>
+      <iframe id="gameFrame" src="" allowfullscreen allow="fullscreen"></iframe>
+    </div>
   </div>
 
   <!-- Article reader page -->
   <div id="articlePage" class="article-page">
     <div class="article-topbar">
       <button class="article-back" onclick="closeArticle()">← Back</button>
-      <button class="article-share" onclick="shareCurrentArticle()">⤴ Share</button>
+      <div>
+        <button class="article-bookmark" id="articleBookmarkBtn" onclick="toggleCurrentArticleBookmark()">☆ Save</button>
+        <button class="article-share" onclick="shareCurrentArticle()">⤴ Share</button>
+      </div>
     </div>
     <div class="article-scroll" id="articleScroll">
       <div class="article-hero" id="articleHero"></div>
@@ -432,7 +515,17 @@
         <div class="article-meta" id="articleMeta"></div>
         <div class="article-body" id="articleBody"></div>
         <div class="article-source" id="articleSource"></div>
+        <div class="article-related" id="articleRelated"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- 404 / not found -->
+  <div id="notFoundPage" class="not-found-page">
+    <div>
+      <div class="nf-code">404</div>
+      <p class="nf-msg" id="notFoundMsg">We couldn't find that page.</p>
+      <button onclick="goHome()">← Back to KRITZAAR</button>
     </div>
   </div>
 
@@ -468,23 +561,70 @@
     let FEEDS = {};
     let currentTab = '';
 
-    // ── Deep-link hash hygiene ─────────────────────────────────────────
-    // #/article, #/section and #/game hashes are only meant to describe a
-    // *specific* shared link. switchTab/switchSubTab/switchSubSubTab/closeGame
-    // never used to touch the hash at all, so once you arrived via a shared
-    // link and then navigated elsewhere in-app, the stale hash just sat in
-    // the address bar. A reload re-read that stale hash and snapped you
-    // straight back to whatever you'd opened last instead of what was on
-    // screen. resolvingHash guards the brief window where we're deliberately
-    // opening a route *from* the hash, so we don't erase the very hash we're
-    // trying to resolve.
+    /* ════════════════════════════════════════════
+       ROUTING — every navigable view (tab / sub-section / sub-sub-section /
+       article / game) is reflected in location.hash, using history.pushState
+       for "major" moves (tab, article, game — things worth a Back press)
+       and history.replaceState for "minor" refinements (sub / sub-sub tab —
+       so tapping around inside a section doesn't flood the Back stack).
+       This means: a shared link opens the right view, Back/Forward step
+       through what you actually visited, and reloading always re-derives
+       the current view from the URL instead of resetting to the first tab.
+
+       resolvingHash is set while we're applying a route *from* a hash
+       (initial load, popstate, manual hash edit) so those functions don't
+       turn around and push a redundant new history entry for the state
+       they were just asked to render.
+    ════════════════════════════════════════════ */
     let resolvingHash = false;
+
+    function sectionHash(sectionId, sub, subsub) {
+      let h = '#/section/' + encodeURIComponent(sectionId);
+      if (sub) {
+        h += '/' + encodeURIComponent(sub);
+        if (subsub) h += '/' + encodeURIComponent(subsub);
+      }
+      return h;
+    }
+
+    function gameHash(sectionId, slug) {
+      return '#/game/' + encodeURIComponent(sectionId) + '/' + encodeURIComponent(slug);
+    }
+
+    // Derives the active sub / sub-sub id (or null) for a section from the
+    // live view-state maps — the single source of truth for "what's showing".
+    function currentRouteInfo(sectionId) {
+      const sub = (subTabState[sectionId] && subTabState[sectionId] !== '__main__') ? subTabState[sectionId] : null;
+      const subsub = sub ? (() => {
+        const v = subSubTabState[sectionId + '/' + sub];
+        return (v && v !== '__sub__') ? v : null;
+      })() : null;
+      return { sub, subsub };
+    }
+
+    // Sync location.hash to whatever `sectionId` (+ its current sub/sub-sub
+    // state) is now showing. push=true adds a Back-able entry (tab-level
+    // change); push=false just corrects the URL in place (sub-tab refinement).
+    function syncSectionRoute(sectionId, push) {
+      if (resolvingHash || !sectionId) return;
+      const { sub, subsub } = currentRouteInfo(sectionId);
+      const hash = sectionHash(sectionId, sub, subsub);
+      if (location.hash === hash) return;
+      const state = { kritzaarSection: true, sectionId, sub, subsub };
+      if (push) history.pushState(state, '', hash);
+      else history.replaceState(state, '', hash);
+    }
+
+    // Clears a stale deep-link hash (used when closing an overlay back to
+    // a view that has no route of its own, e.g. dismissing a game that
+    // wasn't opened via history.pushState).
     function clearStaleHash() {
       if (resolvingHash) return;
       if (/^#\/(article|section|game)\//.test(location.hash)) {
         history.replaceState(null, '', location.pathname + location.search);
       }
     }
+
     let polConfirmed = false;
 
     // How many cards to show per "page" (initial + each Load More click)
@@ -498,8 +638,48 @@
     // Tracks active sub-sub-section per "sectionId/subId" key
     const subSubTabState = {};
 
+    /* ════════════════════════════════════════════
+       LOCAL CACHE (stale-while-revalidate)
+       Each section's JSON, plus the top-level index, is mirrored into
+       localStorage with a timestamp. On load — or the first time a tab
+       is opened — we paint instantly from whatever's cached (even if
+       past its TTL), then always kick a real network fetch in the
+       background and quietly patch the already-visible UI if the data
+       actually changed. Only a genuinely cold cache (nothing stored
+       yet) falls back to the blocking network fetch + loading overlay.
+    ════════════════════════════════════════════ */
+    const CACHE_NS = 'kritzaar:cache:';
+    const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — feed content changes fairly often
+    let paintedFromCache = false; // lets init skip the artificial loading delay
+
+    function cacheRead(key) {
+      try {
+        const raw = localStorage.getItem(CACHE_NS + key);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed.ts !== 'number' || !parsed.data) return null;
+        return parsed; // { ts, data }
+      } catch (_) { return null; } // corrupt entry / storage unavailable — treat as a miss
+    }
+    function cacheWrite(key, data) {
+      try { localStorage.setItem(CACHE_NS + key, JSON.stringify({ ts: Date.now(), data })); }
+      catch (_) { /* private-mode / quota exceeded — caching is best-effort only */ }
+    }
+
     async function fetchSection(id) {
-      if (sectionFetched[id]) return; // already loaded
+      if (sectionFetched[id]) return; // already loaded this session
+      const cached = cacheRead('section:' + id);
+      if (cached && FEEDS[id]) {
+        FEEDS[id].cards = cached.data.cards || [];
+        if (cached.data.subsections) FEEDS[id].subsections = cached.data.subsections;
+        sectionFetched[id] = true;
+        revalidateSection(id); // always refresh silently in the background
+        return;
+      }
+      await fetchSectionNetwork(id);
+    }
+
+    async function fetchSectionNetwork(id) {
       sectionFetched[id] = true;
       const bust = '?t=' + Date.now();
       try {
@@ -510,14 +690,100 @@
           FEEDS[id].cards = data.cards || [];
           if (data.subsections) FEEDS[id].subsections = data.subsections;
         }
+        cacheWrite('section:' + id, { cards: data.cards || [], subsections: data.subsections || null });
+        return true;
       } catch(e) {
         sectionFetched[id] = false; // FIX: allow retry — don't permanently lock out
         console.warn('[KRITZAAR] Could not load section:', id, e);
-        if (FEEDS[id]) FEEDS[id].cards = [];
+        if (FEEDS[id] && !FEEDS[id].cards) FEEDS[id].cards = [];
+        return false;
       }
     }
 
+    // Fire-and-forget network refresh for a section already painted from cache.
+    // If the user is still looking at it once fresh data lands, re-render in place.
+    function revalidateSection(id) {
+      fetchSectionNetwork(id).then(ok => {
+        if (ok && currentTab === id) rerenderActiveSection(id);
+      });
+    }
+
+    // Re-renders whichever main/sub/sub-sub view is currently showing for a
+    // section, using its (now-refreshed) FEEDS data — without touching scroll,
+    // tab selection, or the URL. Safe no-op if the panel hasn't been built yet.
+    function rerenderActiveSection(id) {
+      const panel = document.getElementById('panel-' + id);
+      if (!panel || panel.dataset.unrendered === '1') return;
+      const sub = (subTabState[id] && subTabState[id] !== '__main__') ? subTabState[id] : '__main__';
+      if (sub !== '__main__') {
+        const subsub = subSubTabState[id + '/' + sub];
+        if (subsub && subsub !== '__sub__') { switchSubSubTab(id, sub, subsub); return; }
+      }
+      switchSubTab(id, sub);
+    }
+
+    // Builds FEEDS meta from an _index.json payload. merge=true preserves
+    // already-loaded .cards/.subsections for sections fetched this session
+    // (used on background revalidation, so a refreshed index never wipes
+    // content the user is currently looking at).
+    function applyIndexData(index, merge) {
+      if (index._theme) applyTheme(index._theme);
+      const sectionIds = Object.keys(index.sections || {});
+      const next = {};
+      for (const id of sectionIds) {
+        const prev = merge ? FEEDS[id] : null;
+        next[id] = { ...index.sections[id], cards: (prev && prev.cards) || [] };
+        if (prev && prev.subsections) next[id].subsections = prev.subsections;
+      }
+      FEEDS = next;
+    }
+
+    // Lightweight DOM patch after a background index revalidation — updates
+    // tab labels / counts without rebuilding panels or disturbing the view.
+    function refreshChromeAfterRevalidate() {
+      try {
+        document.querySelectorAll('.htab').forEach(btn => {
+          const f = FEEDS[btn.dataset.tab];
+          if (f) btn.textContent = (f.isGold ? '⚠ ' : '') + f.label;
+        });
+        if (currentTab && FEEDS[currentTab]) {
+          const pn = document.getElementById('panelName');
+          if (pn) pn.textContent = FEEDS[currentTab].label;
+          const pc = document.getElementById('panelCount');
+          if (pc) pc.textContent = FEEDS[currentTab].count;
+        }
+      } catch (_) {}
+    }
+
+    function revalidateIndex() {
+      loadFeedsNetwork().then(ok => { if (ok) refreshChromeAfterRevalidate(); });
+    }
+
     async function loadFeeds() {
+      const cached = cacheRead('_index');
+      if (cached) {
+        applyIndexData(cached.data, false);
+        const sectionIds = Object.keys(cached.data.sections || {});
+        // Paint the default tab instantly too, if it's cached (falls back to a
+        // quick network fetch if not — same as a first-ever visit would).
+        if (sectionIds.length > 0) await fetchSection(sectionIds[0]);
+        paintedFromCache = true;
+        revalidateIndex();
+        return true;
+      }
+      // Legacy single-file repos have no _index.json to cache separately
+      const cachedLegacy = cacheRead('_legacy');
+      if (cachedLegacy) {
+        FEEDS = cachedLegacy.data;
+        Object.keys(FEEDS).forEach(id => { sectionFetched[id] = true; });
+        paintedFromCache = true;
+        revalidateIndex();
+        return true;
+      }
+      return await loadFeedsNetwork();
+    }
+
+    async function loadFeedsNetwork() {
       const bust = '?t=' + Date.now();
       try {
         // Try new split format: _index.json first
@@ -525,37 +791,43 @@
 
         if (idxRes.ok) {
           const index = await idxRes.json();
-          if (index._theme) applyTheme(index._theme);
+          applyIndexData(index, true);
+          cacheWrite('_index', index);
+          // Only fetch the FIRST section eagerly if it isn't already loaded;
+          // rest stay lazy on tab click.
           const sectionIds = Object.keys(index.sections || {});
-          // Populate FEEDS with meta only (cards = [] placeholder)
-          FEEDS = {};
-          for (const id of sectionIds) {
-            FEEDS[id] = { ...index.sections[id], cards: [] };
-          }
-          // Only fetch the FIRST section eagerly; rest are lazy on tab click
-          if (sectionIds.length > 0) {
+          if (sectionIds.length > 0 && !sectionFetched[sectionIds[0]]) {
             await fetchSection(sectionIds[0]);
           }
         } else {
           // Legacy fallback: single feeds.json (all cards in one file — load all)
           const res = await fetch(RAW_LEGACY + bust);
           if (!res.ok) throw new Error('Not found');
-          FEEDS = await res.json();
+          const legacy = await res.json();
+          FEEDS = legacy;
           // Mark all as fetched in legacy mode
           Object.keys(FEEDS).forEach(id => { sectionFetched[id] = true; });
+          cacheWrite('_legacy', legacy);
         }
         return true;
       } catch(e) {
-        document.getElementById('loadingOverlay').innerHTML = `
-          <div style="text-align:center;padding:40px">
-            <div class="load-logo">kritzaar<span>A</span>AR</div>
-            <p style="margin-top:24px;font-size:11px;letter-spacing:3px;color:var(--slate);text-transform:uppercase;line-height:2">
-              Content not found.<br>Check your GitHub settings in admin.
-            </p>
-            <p style="margin-top:12px;font-size:10px;color:rgba(155,164,176,0.4);letter-spacing:2px">
-              ${RAW_BASE}_index.json
-            </p>
-          </div>`;
+        // Only show the "content not found" overlay takeover if we truly have
+        // nothing on screen yet — a failed background revalidation shouldn't
+        // nuke a view that's already painted from cache.
+        if (!paintedFromCache && !Object.keys(FEEDS).length) {
+          document.getElementById('loadingOverlay').innerHTML = `
+            <div style="text-align:center;padding:40px">
+              <div class="load-logo">kritzaar<span>A</span>AR</div>
+              <p style="margin-top:24px;font-size:11px;letter-spacing:3px;color:var(--slate);text-transform:uppercase;line-height:2">
+                Content not found.<br>Check your GitHub settings in admin.
+              </p>
+              <p style="margin-top:12px;font-size:10px;color:rgba(155,164,176,0.4);letter-spacing:2px">
+                ${RAW_BASE}_index.json
+              </p>
+            </div>`;
+        } else {
+          console.warn('[KRITZAAR] Background feed refresh failed:', e);
+        }
         return false;
       }
     }
@@ -610,6 +882,7 @@
         const timeLabel = isGame ? '◈ Interactive' : (c.time ? c.time + ' read' : '');
         const desc = c.desc || c.description || '';
         const tagLabel = isGame ? '◈ GAME' : escHtml(c.tag);
+        const saved = isBookmarked(tabId, articleSlug(c, i));
 
         return `
           <div class="${cardClass}" ${dataAttrs}>
@@ -624,6 +897,7 @@
               <div class="card-footer">
                 <span class="card-time">${timeLabel}</span>
                 <div class="card-footer-actions">
+                  <button class="card-bookmark-btn${saved?' is-saved':''}" title="${saved?'Saved':'Save'}">${saved?'★':'☆'}</button>
                   <button class="card-share-btn" title="Share">⤴</button>
                   <button class="card-cta">${ctaLabel} <span class="arr">→</span></button>
                 </div>
@@ -723,13 +997,87 @@
       // Place sentinel for the first panel
       const firstGrid = document.querySelector('#panel-'+currentTab+' .feed-grid');
       if (firstGrid) placeSentinel(firstGrid, currentTab);
+
+      // "Saved" is a virtual tab — not part of FEEDS, always present
+      const savedBtn = document.createElement('button');
+      savedBtn.className = 'htab htab-saved';
+      savedBtn.id = 'savedTabBtn';
+      savedBtn.textContent = '☆ Saved';
+      savedBtn.addEventListener('click', () => switchToSaved());
+      tabBar.appendChild(savedBtn);
+    }
+
+    /* ── Saved / reading-list virtual tab ── */
+    function renderSavedPanel() {
+      let panel = document.getElementById('panel-saved');
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'panel-saved';
+        panel.className = 'feed-panel';
+        const grid = document.createElement('div');
+        grid.className = 'feed-grid';
+        panel.appendChild(grid);
+        document.getElementById('panelsContainer').appendChild(panel);
+      }
+      const grid = panel.querySelector('.feed-grid');
+      const list = getBookmarks();
+      if (!list.length) {
+        grid.innerHTML = `<p style="grid-column:1/-1;padding:48px;font-size:10px;letter-spacing:3px;color:rgba(155,164,176,0.3);text-transform:uppercase">Nothing saved yet — tap ☆ on any article or game to add it here.</p>`;
+      } else {
+        grid.innerHTML = list.map((b, i) => {
+          const hasImg = b.image && b.image.trim() !== '';
+          const thumbInner = hasImg
+            ? `<div class="card-thumb-inner has-img"><img src="${escHtml(b.image)}" alt="${escHtml(b.title)}" loading="lazy"></div>`
+            : `<div class="card-thumb-inner th-${escHtml(b.sectionId)}"><div class="card-num">${String(i+1).padStart(2,'0')}</div></div>`;
+          const ctaLabel = b.kind === 'game' ? 'Play' : 'Read';
+          return `<div class="card" data-saved-section="${escHtml(b.sectionId)}" data-saved-slug="${escHtml(b.slug)}" data-kind="${b.kind}">
+            <div class="card-thumb">${thumbInner}</div>
+            <div class="card-body">
+              <span class="card-tag-pill">${escHtml(b.tag)}</span>
+              <h3 class="card-title">${escHtml(b.title)}</h3>
+              ${b.desc ? `<p class="card-desc">${escHtml(b.desc)}</p>` : ''}
+              <div class="card-footer">
+                <span class="card-time">${b.time ? b.time + ' read' : ''}</span>
+                <div class="card-footer-actions">
+                  <button class="card-bookmark-btn is-saved" title="Remove">★</button>
+                  <button class="card-cta">${ctaLabel} <span class="arr">→</span></button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      document.getElementById('panelName').textContent = 'Saved';
+      document.getElementById('panelCount').textContent = list.length + (list.length === 1 ? ' item' : ' items');
+      document.getElementById('polBanner').classList.remove('visible');
+      document.getElementById('loadBtn').style.display = 'none';
+      document.querySelectorAll('.feed-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-saved'));
+      document.querySelectorAll('.htab').forEach(b => b.classList.remove('active'));
+      document.getElementById('savedTabBtn')?.classList.add('active');
+    }
+
+    function switchToSaved(opts) {
+      opts = opts || {};
+      hideArticleUI();
+      closeGameUIOnly();
+      currentTab = '__saved__';
+      renderSavedPanel();
+      if (!resolvingHash && opts.push !== false) {
+        history.pushState({ kritzaarSaved: true }, '', '#/saved');
+      }
+      document.getElementById('hub').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function resolveSavedFromHash() {
+      resolvingHash = true;
+      try { switchToSaved({ push: false }); }
+      finally { resolvingHash = false; }
     }
 
     /* ════════════════════════════════════════════
        SUB-SECTION SWITCHING (viewer) — handles level-1 and level-2
     ════════════════════════════════════════════ */
     function switchSubTab(sectionId, subId) {
-      clearStaleHash();
       subTabState[sectionId] = subId;
       // Reset level-2 state when switching level-1
       delete subSubTabState[sectionId + '/' + subId];
@@ -797,10 +1145,10 @@
         const newCards = Array.from(grid.querySelectorAll('.card'));
         gsap.fromTo(newCards, {y:16,opacity:0}, {y:0,opacity:1,duration:.3,ease:'power2.out',stagger:.04});
       }
+      syncSectionRoute(sectionId, false);
     }
 
     function switchSubSubTab(sectionId, subId, subsubId) {
-      clearStaleHash();
       subSubTabState[sectionId + '/' + subId] = subsubId;
       const isGold = FEEDS[sectionId]?.isGold;
 
@@ -825,6 +1173,7 @@
       tabPage[sectionId] = cards.length;
       const newCards = Array.from(grid.querySelectorAll('.card'));
       gsap.fromTo(newCards, {y:16,opacity:0}, {y:0,opacity:1,duration:.3,ease:'power2.out',stagger:.04});
+      syncSectionRoute(sectionId, false);
     }
 
     // ── Sentinel / auto-load ──────────────────────────────────────────
@@ -905,13 +1254,14 @@
           const timeLabel = isGame ? '◈ Interactive' : (c.time ? c.time + ' read' : '');
           const desc = c.desc || c.description || '';
           const tagLabel = isGame ? '◈ GAME' : escHtml(c.tag);
+          const saved = isBookmarked(tabId, articleSlug(c, idx));
           return `<div class="${cardClass}" ${dataAttrs}>
               <div class="card-thumb">${blurBg}${thumbInner}</div>
               <div class="card-body">
                 <span class="card-tag-pill">${tagLabel}</span>
                 <h3 class="card-title">${escHtml(c.title)}</h3>
                 ${desc ? `<p class="card-desc">${escHtml(desc)}</p>` : ''}
-                <div class="card-footer"><span class="card-time">${timeLabel}</span><div class="card-footer-actions"><button class="card-share-btn" title="Share">⤴</button><button class="card-cta">${ctaLabel} <span class="arr">→</span></button></div></div>
+                <div class="card-footer"><span class="card-time">${timeLabel}</span><div class="card-footer-actions"><button class="card-bookmark-btn${saved?' is-saved':''}" title="${saved?'Saved':'Save'}">${saved?'★':'☆'}</button><button class="card-share-btn" title="Share">⤴</button><button class="card-cta">${ctaLabel} <span class="arr">→</span></button></div></div>
               </div>
               <div class="card-overlay">
                 <div class="ov-tag">${tagLabel}</div>
@@ -934,7 +1284,6 @@
     function updateLoadBtn() {}
 
     function switchTab(tabId) {
-      clearStaleHash();
       if (tabId === 'political' && FEEDS.political?.isGold && !polConfirmed) {
         document.getElementById('polModal').classList.add('show');
         return;
@@ -998,6 +1347,7 @@
         });
         // Show loading stub immediately
         currentTab = tabId;
+        syncSectionRoute(tabId, true);
         document.querySelectorAll('.feed-panel').forEach(p => {
           p.classList.remove('active');
           p.style.display = ''; // clear inline style
@@ -1017,6 +1367,7 @@
       }
 
       currentTab = tabId;
+      syncSectionRoute(tabId, true);
       finishSwitch(tabId, panel, isGold);
     }
 
@@ -1059,20 +1410,69 @@
     });
     // Load More button hidden — auto-load via IntersectionObserver sentinel
 
-    /* GAME MODAL */
-    function openGame(url, title) {
+    /* GAME MODAL — url/title always required; route is {sectionId, slug} and is
+       only present when this open should be reflected in the URL (i.e. a real
+       user click), letting share links and Back/Forward resolve back to it. */
+    let currentGameUrl = null;
+    let gameLoadTimer = null;
+    let gameIssueTimer = null;
+
+    function resetGameStatusUI() {
+      clearTimeout(gameLoadTimer);
+      clearTimeout(gameIssueTimer);
+      document.getElementById('gameLoadStatus').classList.remove('hidden');
+      document.getElementById('gameLoadIssue').classList.remove('show');
+    }
+
+    function openGame(url, title, route) {
       if (!url) return;
-      document.getElementById('gameFrame').src = url;
+      currentGameUrl = url;
+      resetGameStatusUI();
+      const frame = document.getElementById('gameFrame');
+      // Force a fresh navigation even if retrying the same URL
+      frame.src = 'about:blank';
+      requestAnimationFrame(() => { frame.src = url; });
       document.getElementById('gameModalTitle').textContent = title || 'Game';
       document.getElementById('gameModal').classList.add('show');
       document.body.style.overflow = 'hidden';
+
+      // Best-effort load feedback: cross-origin frames blocked by X-Frame-Options/CSP
+      // don't reliably fire a distinguishable error event, so we combine the load
+      // event (hides the spinner) with a timeout fallback (offers Retry / Open in
+      // new tab) rather than claiming to definitively detect the failure.
+      frame.onload = () => document.getElementById('gameLoadStatus').classList.add('hidden');
+      gameLoadTimer = setTimeout(() => document.getElementById('gameLoadStatus').classList.add('hidden'), 9000);
+      gameIssueTimer = setTimeout(() => document.getElementById('gameLoadIssue').classList.add('show'), 9000);
+
+      if (route && !resolvingHash) {
+        history.pushState({ kritzaarGame: true, sectionId: route.sectionId, slug: route.slug }, '', gameHash(route.sectionId, route.slug));
+      }
     }
-    function closeGame() {
+
+    function closeGameUIOnly() {
       document.getElementById('gameModal').classList.remove('show');
-      document.getElementById('gameFrame').src = '';
+      document.getElementById('gameFrame').src = 'about:blank';
       document.body.style.overflow = '';
-      clearStaleHash();
+      resetGameStatusUI();
+      currentGameUrl = null;
     }
+
+    function closeGame() {
+      closeGameUIOnly();
+      if (history.state && history.state.kritzaarGame) {
+        history.back();
+      } else {
+        clearStaleHash();
+      }
+    }
+
+    document.getElementById('gameRetryBtn')?.addEventListener('click', () => {
+      if (currentGameUrl) openGame(currentGameUrl, document.getElementById('gameModalTitle').textContent, null);
+    });
+    document.getElementById('gameOpenTabBtn')?.addEventListener('click', () => {
+      if (currentGameUrl) window.open(currentGameUrl, '_blank', 'noopener');
+    });
+
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
       closeGame();
@@ -1106,15 +1506,122 @@
       return (c.slug ? slugify(c.slug) : slugify(c.title)) || ('article-' + idx);
     }
 
+    /* ── Flattened card indexes (used by search + related articles) ── */
+    function getSectionCardsFlat(sectionId) {
+      const f = FEEDS[sectionId];
+      if (!f) return [];
+      const out = [];
+      (f.cards || []).forEach((card, idx) => out.push({ sectionId, sub: null, subsub: null, idx, card }));
+      Object.keys(f.subsections || {}).forEach(subId => {
+        const subObj = f.subsections[subId];
+        (subObj.cards || []).forEach((card, idx) => out.push({ sectionId, sub: subId, subsub: null, idx, card }));
+        Object.keys(subObj.subsections || {}).forEach(subsubId => {
+          (subObj.subsections[subsubId].cards || []).forEach((card, idx) =>
+            out.push({ sectionId, sub: subId, subsub: subsubId, idx, card }));
+        });
+      });
+      return out;
+    }
+    function getAllCardsFlat() {
+      return Object.keys(FEEDS).flatMap(id => getSectionCardsFlat(id));
+    }
+
+    /* ── Bookmarks / reading list (localStorage) ── */
+    const BOOKMARKS_KEY = 'kritzaar:bookmarks';
+    function getBookmarks() {
+      try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]'); }
+      catch (_) { return []; }
+    }
+    function setBookmarks(list) {
+      try { localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list)); }
+      catch (_) { showToast('Could not save — storage unavailable'); }
+    }
+    function isBookmarked(sectionId, slug) {
+      return getBookmarks().some(b => b.sectionId === sectionId && b.slug === slug);
+    }
+    // Returns true if the item is now saved, false if it was just removed.
+    function toggleBookmark(sectionId, sub, subsub, idx, c) {
+      const slug = articleSlug(c, idx);
+      const list = getBookmarks();
+      const existing = list.findIndex(b => b.sectionId === sectionId && b.slug === slug);
+      if (existing > -1) {
+        list.splice(existing, 1);
+        setBookmarks(list);
+        return false;
+      }
+      const isGame = c.type === 'game';
+      list.unshift({
+        sectionId, sub: sub || null, subsub: subsub || null, slug,
+        title: c.title || '', tag: isGame ? 'GAME' : (c.tag || ''),
+        image: c.image || '', time: c.time || '', desc: c.desc || c.description || '',
+        kind: isGame ? 'game' : 'article', url: c.url || '',
+        addedAt: Date.now()
+      });
+      setBookmarks(list);
+      return true;
+    }
+
+    // Shared "open this card" logic used by the main grid, related-articles
+    // strip, and search results alike.
+    function openCardRef(sectionId, sub, subsub, idx, kind) {
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      if (!arr || !arr[idx]) { showNotFound('That item may have been moved or removed.'); return; }
+      const c = arr[idx];
+      if (kind === 'game') {
+        hideArticleUI();
+        openGame(c.url, c.title, { sectionId, slug: articleSlug(c, idx) });
+      } else {
+        openArticle(sectionId, sub, subsub, idx);
+      }
+    }
+
     // Single delegated listener handles every card, current and future (sentinel-loaded, sub-tabs, etc.)
-    document.getElementById('panelsContainer').addEventListener('click', e => {
+    document.getElementById('panelsContainer').addEventListener('click', async e => {
       const cardEl = e.target.closest('.card');
       if (!cardEl) return;
+
+      // Saved-list cards are resolved by slug (their live idx can drift as content changes)
+      if (cardEl.dataset.savedSection) {
+        const sectionId = cardEl.dataset.savedSection;
+        const slug = cardEl.dataset.savedSlug;
+        if (e.target.closest('.card-bookmark-btn')) {
+          e.stopPropagation();
+          setBookmarks(getBookmarks().filter(b => !(b.sectionId === sectionId && b.slug === slug)));
+          renderSavedPanel();
+          return;
+        }
+        await fetchSection(sectionId);
+        const hit = findCardBySlug(sectionId, slug);
+        if (!hit) {
+          showToast('That saved item is no longer available');
+          setBookmarks(getBookmarks().filter(b => !(b.sectionId === sectionId && b.slug === slug)));
+          renderSavedPanel();
+          return;
+        }
+        openCardRef(sectionId, hit.sub, hit.subsub, hit.idx, cardEl.dataset.kind);
+        return;
+      }
+
       const sectionId = cardEl.dataset.section;
       const sub = cardEl.dataset.sub || null;
       const subsub = cardEl.dataset.subsub || null;
       const idx = parseInt(cardEl.dataset.idx, 10);
       const kind = cardEl.dataset.kind;
+
+      // Bookmark toggle — save/unsave without opening the card
+      if (e.target.closest('.card-bookmark-btn')) {
+        e.stopPropagation();
+        const arr = resolveCardsArray(sectionId, sub, subsub);
+        const c = arr && arr[idx];
+        if (!c) return;
+        const nowSaved = toggleBookmark(sectionId, sub, subsub, idx, c);
+        const btn = cardEl.querySelector('.card-bookmark-btn');
+        btn.classList.toggle('is-saved', nowSaved);
+        btn.textContent = nowSaved ? '★' : '☆';
+        btn.title = nowSaved ? 'Saved' : 'Save';
+        showToast(nowSaved ? 'Saved' : 'Removed from Saved');
+        return;
+      }
 
       // Share icon — share this exact card without opening it
       if (e.target.closest('.card-share-btn')) {
@@ -1124,15 +1631,92 @@
         return;
       }
 
-      const arr = resolveCardsArray(sectionId, sub, subsub);
-      if (!arr || !arr[idx]) return;
-      const c = arr[idx];
-      if (kind === 'game') {
-        openGame(c.url, c.title);
-      } else {
-        openArticle(sectionId, sub, subsub, idx);
-      }
+      openCardRef(sectionId, sub, subsub, idx, kind);
     });
+
+    /* ── Sitewide search ── */
+    let sectionsBeingIndexed = false;
+    async function ensureAllSectionsFetched() {
+      if (sectionsBeingIndexed) return;
+      sectionsBeingIndexed = true;
+      try { await Promise.all(Object.keys(FEEDS).map(id => fetchSection(id))); }
+      finally { sectionsBeingIndexed = false; }
+    }
+
+    function goToSearchResult(item) {
+      closeSearch();
+      openCardRef(item.sectionId, item.sub, item.subsub, item.idx, item.card.type === 'game' ? 'game' : 'article');
+    }
+
+    function renderSearchResults(query) {
+      const box = document.getElementById('searchResults');
+      const q = query.trim().toLowerCase();
+      if (!q) { box.classList.remove('show'); box.innerHTML = ''; return; }
+
+      const matches = getAllCardsFlat().filter(it => {
+        const title = (it.card.title || '').toLowerCase();
+        const tag = (it.card.tag || '').toLowerCase();
+        return title.includes(q) || tag.includes(q);
+      }).slice(0, 25);
+
+      if (!matches.length) {
+        box.innerHTML = `<div class="search-empty">No matches for "${escHtml(query)}"</div>`;
+      } else {
+        box.innerHTML = matches.map((it, i) => {
+          const c = it.card;
+          const isGame = c.type === 'game';
+          const hasImg = c.image && c.image.trim() !== '';
+          const label = FEEDS[it.sectionId]?.label || it.sectionId;
+          return `<div class="search-result-item" data-i="${i}">
+            <div class="search-result-thumb" ${hasImg ? `style="background-image:url('${escHtml(c.image)}')"` : ''}>${hasImg ? '' : (isGame ? '◈' : '▤')}</div>
+            <div class="search-result-text">
+              <div class="search-result-title">${escHtml(c.title)}</div>
+              <div class="search-result-meta">${escHtml(label)}${isGame ? ' · GAME' : (c.tag ? ' · ' + escHtml(c.tag) : '')}</div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      box.classList.add('show');
+      box.__matches = matches; // stash for the click handler
+    }
+
+    function closeSearch() {
+      document.getElementById('searchResults').classList.remove('show');
+      document.getElementById('siteSearchInput').blur();
+    }
+
+    (function initSiteSearch() {
+      const input = document.getElementById('siteSearchInput');
+      const wrap = document.getElementById('searchWrap');
+      const box = document.getElementById('searchResults');
+      const clearBtn = document.getElementById('searchClearBtn');
+      let debounceTimer = null;
+
+      input.addEventListener('focus', () => {
+        ensureAllSectionsFetched().then(() => { if (input.value.trim()) renderSearchResults(input.value); });
+      });
+      input.addEventListener('input', () => {
+        wrap.classList.toggle('has-query', !!input.value);
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => renderSearchResults(input.value), 150);
+      });
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        wrap.classList.remove('has-query');
+        renderSearchResults('');
+        input.focus();
+      });
+      box.addEventListener('click', e => {
+        const item = e.target.closest('.search-result-item');
+        if (!item) return;
+        const match = box.__matches?.[parseInt(item.dataset.i, 10)];
+        if (match) goToSearchResult(match);
+      });
+      document.addEventListener('click', e => {
+        if (!wrap.contains(e.target)) box.classList.remove('show');
+      });
+      input.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+    })();
 
     let currentArticle = null;
 
@@ -1170,6 +1754,13 @@
       const srcEl = document.getElementById('articleSource');
       srcEl.innerHTML = c.url ? `<a href="${escHtml(c.url)}" target="_blank" rel="noopener">Read original source ↗</a>` : '';
 
+      const bmBtn = document.getElementById('articleBookmarkBtn');
+      const saved = isBookmarked(sectionId, slug);
+      bmBtn.classList.toggle('is-saved', saved);
+      bmBtn.textContent = saved ? '★ Saved' : '☆ Save';
+
+      renderRelatedArticles(sectionId, sub, subsub, idx, c);
+
       page.classList.add('show');
       document.body.style.overflow = 'hidden';
       document.getElementById('articleScroll').scrollTop = 0;
@@ -1179,6 +1770,55 @@
           '#/article/' + encodeURIComponent(sectionId) + '/' + encodeURIComponent(slug));
       }
     }
+
+    function toggleCurrentArticleBookmark() {
+      if (!currentArticle) return;
+      const { sectionId, sub, subsub, idx } = currentArticle;
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      const c = arr && arr[idx];
+      if (!c) return;
+      const nowSaved = toggleBookmark(sectionId, sub, subsub, idx, c);
+      const bmBtn = document.getElementById('articleBookmarkBtn');
+      bmBtn.classList.toggle('is-saved', nowSaved);
+      bmBtn.textContent = nowSaved ? '★ Saved' : '☆ Save';
+      showToast(nowSaved ? 'Saved' : 'Removed from Saved');
+    }
+
+    // "More like this" — same tag within the current section first, padded
+    // out with other cards from the same section if there aren't enough.
+    function renderRelatedArticles(sectionId, sub, subsub, idx, c) {
+      const container = document.getElementById('articleRelated');
+      if (!container) return;
+      const pool = getSectionCardsFlat(sectionId)
+        .filter(it => !(it.sub === sub && it.subsub === subsub && it.idx === idx));
+      let picks = c.tag ? pool.filter(it => it.card.tag === c.tag) : [];
+      if (picks.length < 4) {
+        const already = new Set(picks);
+        picks = picks.concat(pool.filter(it => !already.has(it)));
+      }
+      picks = picks.slice(0, 4);
+      if (!picks.length) { container.innerHTML = ''; return; }
+      container.innerHTML = `<h3 class="related-heading">More like this</h3><div class="related-grid">` +
+        picks.map(it => {
+          const rc = it.card;
+          const isGame = rc.type === 'game';
+          const hasImg = rc.image && rc.image.trim() !== '';
+          const dataAttrs = `data-section="${it.sectionId}" data-sub="${it.sub||''}" data-subsub="${it.subsub||''}" data-idx="${it.idx}" data-kind="${isGame?'game':'article'}"`;
+          return `<div class="related-card" ${dataAttrs}>
+            <div class="related-thumb" ${hasImg ? `style="background-image:url('${escHtml(rc.image)}')"` : ''}>${hasImg ? '' : '▤'}</div>
+            <div class="related-body">
+              <span class="related-tag">${isGame ? 'GAME' : escHtml(rc.tag)}</span>
+              <h4>${escHtml(rc.title)}</h4>
+            </div>
+          </div>`;
+        }).join('') + `</div>`;
+    }
+
+    document.getElementById('articleRelated').addEventListener('click', e => {
+      const el = e.target.closest('.related-card');
+      if (!el) return;
+      openCardRef(el.dataset.section, el.dataset.sub || null, el.dataset.subsub || null, parseInt(el.dataset.idx, 10), el.dataset.kind);
+    });
 
     function hideArticleUI() {
       document.getElementById('articlePage')?.classList.remove('show');
@@ -1190,25 +1830,52 @@
         history.back();
       } else {
         hideArticleUI();
-        if (location.hash.startsWith('#/article/')) history.pushState(null, '', location.pathname + location.search);
+        if (location.hash.startsWith('#/article/')) history.replaceState(null, '', location.pathname + location.search);
       }
     }
 
-    window.addEventListener('popstate', e => {
-      if (e.state && e.state.kritzaarArticle) {
-        openArticle(e.state.sectionId, e.state.sub, e.state.subsub, e.state.idx, { pushHistory: false });
-      } else {
-        hideArticleUI();
-      }
-    });
+    /* ── 404 / not-found page ── */
+    function showNotFound(message) {
+      hideArticleUI();
+      closeGameUIOnly();
+      document.getElementById('notFoundMsg').textContent = message || "We couldn't find that page.";
+      document.getElementById('notFoundPage').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function hideNotFound() {
+      document.getElementById('notFoundPage')?.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    function goHome() {
+      hideNotFound();
+      history.replaceState(null, '', location.pathname + location.search);
+      applyRouteFromHash();
+    }
 
+    // Central dispatcher: makes the visible UI match whatever location.hash
+    // currently says. Used for Back/Forward (popstate) and for manually
+    // pasted/edited share links (hashchange) — both leave the browser's
+    // location.hash already pointing at the target, so reading it here is
+    // enough; resolvingHash (set inside each resolve*/switchTab call)
+    // stops these from turning around and pushing a redundant new entry.
+    async function applyRouteFromHash() {
+      hideNotFound();
+      const h = location.hash;
+      if (h.startsWith('#/article/')) { await resolveArticleFromHash(); return; }
+      hideArticleUI();
+      if (h.startsWith('#/game/')) { await resolveGameFromHash(); return; }
+      closeGameUIOnly();
+      if (h.startsWith('#/section/')) { await resolveSectionFromHash(); return; }
+      if (h === '#/saved') { await resolveSavedFromHash(); return; }
+      // No recognized route (e.g. Back all the way to the start, or hash
+      // manually cleared) — land on the default first tab.
+      const firstTab = Object.keys(FEEDS)[0];
+      if (firstTab && currentTab !== firstTab) switchTab(firstTab);
+    }
+
+    window.addEventListener('popstate', applyRouteFromHash);
     // Covers pasting/typing a share link into the address bar while the app is already running
-    window.addEventListener('hashchange', () => {
-      if (document.getElementById('articlePage')?.classList.contains('show')) return;
-      if (location.hash.startsWith('#/article/')) resolveArticleFromHash();
-      else if (location.hash.startsWith('#/section/')) resolveSectionFromHash();
-      else if (location.hash.startsWith('#/game/')) resolveGameFromHash();
-    });
+    window.addEventListener('hashchange', applyRouteFromHash);
 
     function showToast(msg) {
       const t = document.getElementById('krzToast');
@@ -1255,24 +1922,18 @@
     // Build a shareable {label, url} for the currently active section/sub/sub-sub view
     function currentSectionShareInfo() {
       const sectionId = currentTab;
-      const sub = (subTabState[sectionId] && subTabState[sectionId] !== '__main__') ? subTabState[sectionId] : null;
-      const subsub = sub ? (() => {
-        const v = subSubTabState[sectionId + '/' + sub];
-        return (v && v !== '__sub__') ? v : null;
-      })() : null;
+      const { sub, subsub } = currentRouteInfo(sectionId);
 
       let label = FEEDS[sectionId]?.label || sectionId;
-      let url = location.origin + location.pathname + '#/section/' + encodeURIComponent(sectionId);
       if (sub) {
         const subObj = FEEDS[sectionId]?.subsections?.[sub];
         if (subObj) label += ' — ' + subObj.label;
-        url += '/' + encodeURIComponent(sub);
         if (subsub) {
           const ssObj = subObj?.subsections?.[subsub];
           if (ssObj) label += ' — ' + ssObj.label;
-          url += '/' + encodeURIComponent(subsub);
         }
       }
+      const url = location.origin + location.pathname + sectionHash(sectionId, sub, subsub);
       return { label, url };
     }
 
@@ -1316,11 +1977,11 @@
       try {
         const sectionId = decodeURIComponent(m[1]);
         const slug = decodeURIComponent(m[2]);
-        if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+        if (!FEEDS[sectionId]) { showNotFound('This section no longer exists.'); return; }
         await fetchSection(sectionId);
         if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
         const hit = findCardBySlug(sectionId, slug);
-        if (!hit) { showToast('Article not found'); return; }
+        if (!hit) { showNotFound('This article may have been moved or removed.'); return; }
         history.replaceState({ kritzaarArticle: true, sectionId, sub: hit.sub, subsub: hit.subsub, idx: hit.idx }, '', location.hash);
         openArticle(sectionId, hit.sub, hit.subsub, hit.idx, { pushHistory: false });
       } finally {
@@ -1333,7 +1994,7 @@
     async function openSectionRoute(sectionId, sub, subsub) {
       resolvingHash = true;
       try {
-      if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+      if (!FEEDS[sectionId]) { showNotFound('This section no longer exists.'); return; }
       await fetchSection(sectionId);
 
       const panel = document.getElementById('panel-' + sectionId);
@@ -1411,14 +2072,15 @@
       try {
         const sectionId = decodeURIComponent(m[1]);
         const slug = decodeURIComponent(m[2]);
-        if (!FEEDS[sectionId]) { showToast('Section not found'); return; }
+        if (!FEEDS[sectionId]) { showNotFound('This section no longer exists.'); return; }
         await fetchSection(sectionId);
         const hit = findCardBySlug(sectionId, slug);
-        if (!hit) { showToast('Game not found'); return; }
+        if (!hit) { showNotFound('This game may have been moved or removed.'); return; }
         const arr = resolveCardsArray(sectionId, hit.sub, hit.subsub);
         const c = arr[hit.idx];
         if (currentTab !== sectionId) { try { switchTab(sectionId); } catch (_) {} }
-        openGame(c.url, c.title);
+        history.replaceState({ kritzaarGame: true, sectionId, slug }, '', location.hash);
+        openGame(c.url, c.title, null);
       } finally {
         resolvingHash = false;
       }
@@ -1508,6 +2170,9 @@
       // Always dismiss overlay — even if something above threw
       // Hard failsafe: clears overlay after 6s no matter what
       setTimeout(() => { try { const o=document.getElementById('loadingOverlay'); if(o){o.classList.add('fade');setTimeout(()=>o.remove(),700);} } catch(_){} }, 6000);
+      // Cached loads already have content ready to paint — skip the artificial
+      // delay and dismiss almost immediately instead of showing the overlay
+      // out of habit. A true cold load still gets a brief settle delay.
       setTimeout(() => {
         const overlay = document.getElementById('loadingOverlay');
         if (overlay) {
@@ -1524,7 +2189,8 @@
         if (location.hash.startsWith('#/article/')) resolveArticleFromHash();
         else if (location.hash.startsWith('#/section/')) resolveSectionFromHash();
         else if (location.hash.startsWith('#/game/')) resolveGameFromHash();
-      }, 800);
+        else if (location.hash === '#/saved') resolveSavedFromHash();
+      }, paintedFromCache ? 60 : 800);
     })();
   </script>
 </body>
