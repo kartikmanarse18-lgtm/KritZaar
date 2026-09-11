@@ -16,19 +16,21 @@
       "url": "https://drive.google.com/drive/folders/1qL2m30qi-Ds6wGEVuMaMj0_ov39QtGyj",
       "image": "https://www.bing.com/th?id=OIP.KqW0WG4FeC52g-8yMGc8JQHaHa",
       "type": "article",
-      "imagePosY": 40
+      "imagePosY": 40,
+      "imagePosX": 0
     },
     {
       "tag": "Secret",
       "time": "5 min",
       "title": "Story of Deolali",
       "url": "",
-      "image": "https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/wrvp2dmy8cxcgrqorxh0",
+      "image": "https://i.ibb.co/hRk9njXw/IMG-20260908-194854.png",
       "type": "article",
       "desc": "Biggest criminal ",
-      "content": "A sweet/cute looking girl with who.....",
+      "content": "A sweet/cute looking girl who .....",
       "slug": "",
-      "imagePosX": 67
+      "imagePosX": 67,
+      "imagePosY": 14
     },
     {
       "tag": "mystery",
