@@ -6,6 +6,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KRITZAAR</title>
+  <meta name="description" content="KRITZAAR is a free content hub: stories, free HTML games you can play in your browser, AI, conflict explainers, cool stuff and more. No sign-up needed.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KRITZAAR">
+  <meta property="og:title" content="KRITZAAR - stories, games, AI and more">
+  <meta property="og:description" content="Free content hub with stories, free HTML games, AI, conflict explainers and cool stuff. No sign-up needed.">
+  <meta property="og:url" content="https://kritzaar.online/">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"KRITZAAR","url":"https://kritzaar.online/","description":"Free content hub with stories, free HTML games, AI, conflict explainers and cool stuff.","hasPart":[
+    {"@type":"CollectionPage","name":"Stories","description":"Long reads and short stories you can read right on KritZaar."},
+    {"@type":"CollectionPage","name":"Games","description":"Free HTML games you can play instantly in your browser, no download or sign-up."},
+    {"@type":"CollectionPage","name":"AI","description":"Articles about artificial intelligence: what is new, how it works and how people use it."},
+    {"@type":"CollectionPage","name":"Cool Stuff","description":"Interesting finds, gadgets, tools and ideas worth a look."},
+    {"@type":"CollectionPage","name":"Conflict","description":"Articles about conflicts and global tensions, with background to help you follow them."},
+    {"@type":"CollectionPage","name":"Interesting","description":"Surprising facts, curiosities and things worth knowing."},
+    {"@type":"CollectionPage","name":"Updates","description":"What is new on KritZaar: new sections, features and changes."},
+    {"@type":"CollectionPage","name":"Political","description":"Political news and analysis for information only. KritZaar does not endorse any party, candidate or ideology."}
+  ]}
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -454,10 +472,59 @@
     .kz-frame.gold .kz-bar span{background:var(--gold);box-shadow:0 0 8px var(--gold-glow);}
     @media(max-width:580px){.kz-preview{padding:0 16px;margin-top:16px;}.kz-slide{padding:14px 14px 22px;gap:12px;}.kz-thumb{flex-basis:52px;height:52px;}}
     @media(prefers-reduced-motion:reduce){.kz-track{transition:none;}}
+
+    /* ══ KZ DIVIDER — glowing line between preview strip and section bar ══ */
+    .kz-divider{position:relative;z-index:1;height:1px;margin:14px 0 0;overflow-x:clip;background:linear-gradient(90deg,transparent 0%,rgba(0,255,194,0.55) 50%,transparent 100%);box-shadow:0 0 14px 1px var(--mint-glow),0 0 44px 6px var(--mint-dim);transition:box-shadow .6s,background .6s;}
+    .kz-divider::after{content:"";position:absolute;top:-1px;left:-24%;width:24%;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--mint),transparent);filter:blur(1.2px);opacity:0;animation:kzSweep 5.6s ease-in-out infinite;}
+    .kz-divider.gold{background:linear-gradient(90deg,transparent 0%,rgba(201,162,39,0.6) 50%,transparent 100%);box-shadow:0 0 14px 1px var(--gold-glow),0 0 44px 6px var(--gold-dim);}
+    .kz-divider.gold::after{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+    @keyframes kzSweep{0%{left:-24%;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:100%;opacity:0}}
+    @media(prefers-reduced-motion:reduce){.kz-divider::after{animation:none;opacity:0;}}
+
+    /* ══ KZ SECTION INFO LINE (under each section header) ══ */
+    .panel-info{padding:14px 52px 4px;font-size:15px;line-height:1.55;color:var(--slate);max-width:92ch;}
+    .panel-info:empty{display:none;}
+    .panel-info.gold{color:rgba(201,162,39,0.8);}
+    .search-result-desc{font-size:11px;line-height:1.35;color:var(--slate);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .krz-meta a + a{margin-left:18px;}
+    @media(max-width:580px){.panel-info{padding:12px 20px 2px;font-size:14px;}}
+    /* ══ KZ ABOUT PAGE ══ */
+    .about-page{position:fixed;inset:0;z-index:1650;background:var(--bg);display:none;flex-direction:column;opacity:0;transform:translateY(24px);transition:opacity .35s ease,transform .35s cubic-bezier(.25,.46,.45,.94);}
+    .about-page.show{display:flex;opacity:1;transform:translateY(0);}
+    .about-topbar{height:52px;flex-shrink:0;display:flex;align-items:center;gap:16px;padding:0 24px;background:rgba(22,24,26,0.97);border-bottom:1px solid rgba(0,255,194,0.08);}
+    .about-topbar-title{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--slate);}
+    .about-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;}
+    .about-wrap{max-width:860px;margin:0 auto;padding:48px 32px 96px;}
+    .about-title{font-family:'Orbitron',sans-serif;font-size:clamp(34px,8vw,64px);font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1;}
+    .about-title span{color:var(--mint);text-shadow:0 0 24px var(--mint),0 0 60px var(--mint-glow);}
+    .about-lead{margin-top:18px;font-size:18px;line-height:1.6;color:var(--white);max-width:60ch;}
+    .about-wrap h2{margin-top:44px;font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--mint);padding-bottom:10px;border-bottom:1px solid rgba(0,255,194,0.12);box-shadow:0 10px 18px -14px var(--mint-glow);}
+    .about-wrap p,.about-wrap li{font-size:16px;line-height:1.65;color:var(--slate);}
+    .about-wrap h2 + p,.about-wrap h2 + ul,.about-wrap h2 + .about-grid{margin-top:16px;}
+    .about-list{padding-left:20px;display:grid;gap:8px;}
+    .about-list b{color:var(--white);font-weight:600;}
+    .about-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .about-card{text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--card);border:1px solid rgba(0,255,194,0.12);border-radius:12px;padding:16px 18px;display:block;transition:border-color .25s,box-shadow .25s;}
+    .about-card:hover,.about-card:focus-visible{border-color:rgba(0,255,194,0.45);box-shadow:0 0 18px var(--mint-glow);outline:none;}
+    .about-card.gold{border-color:rgba(201,162,39,0.28);}
+    .about-card.gold:hover,.about-card.gold:focus-visible{border-color:rgba(201,162,39,0.6);box-shadow:0 0 18px var(--gold-glow);}
+    .about-card-name{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);}
+    .about-card.gold .about-card-name{color:var(--gold);}
+    .about-card-count{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--slate);margin-top:3px;}
+    .about-card-desc{font-size:14px;line-height:1.5;color:var(--slate);margin-top:8px;}
+    .about-home{margin-top:40px;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);background:none;border:1px solid rgba(0,255,194,0.3);padding:12px 24px;cursor:pointer;transition:background .2s,color .2s;}
+    .about-home:hover{background:var(--mint);color:var(--bg);}
+    @media(max-width:580px){.about-wrap{padding:32px 18px 80px;}.about-grid{grid-template-columns:1fr;}.about-lead{font-size:16px;}.about-topbar{padding:0 14px;}}
   </style>
 </head>
 
 <body>
+  <noscript>
+    <div style="padding:24px;max-width:720px;margin:0 auto;color:#cae6d3;font-family:sans-serif;line-height:1.6">
+      <h1>KRITZAAR</h1>
+      <p>KRITZAAR is a free content hub with stories, free HTML games you can play instantly in your browser, AI articles, conflict explainers, cool finds, interesting facts, site updates and political news for information only. No sign-up needed. Turn on JavaScript to browse.</p>
+    </div>
+  </noscript>
 
   <!-- Loading screen -->
   <div id="loadingOverlay">
@@ -476,6 +543,7 @@
     <div class="krz-meta">
       <p>Dark-mode content hub</p>
       <a href="#">↑ Begin the climb</a>
+      <a href="#/about" id="aboutLink">About</a>
     </div>
   </div>
 
@@ -497,6 +565,8 @@
     </div>
   </section>
 
+  <div class="kz-divider" id="kzDivider" aria-hidden="true" hidden></div>
+
   <div class="hub" id="hub">
     <div class="hub-tabbar" id="tabBar"></div>
     <div class="panel-hdr">
@@ -504,6 +574,7 @@
       <span class="panel-count" id="panelCount"></span>
       <button class="panel-share-btn" id="panelShareBtn" title="Share this section">⤴ Share Section</button>
     </div>
+    <p class="panel-info" id="panelInfo"></p>
     <div class="pol-banner" id="polBanner">
       <div class="pol-banner-icon">⚠</div>
       <p><strong>Non-Suggested Content.</strong> This section contains political news. KRITZAAR does not promote or endorse any political position.</p>
@@ -552,6 +623,41 @@
         <div class="article-body" id="articleBody"></div>
         <div class="article-source" id="articleSource"></div>
         <div class="article-related" id="articleRelated"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KZ About page -->
+  <div id="aboutPage" class="about-page" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="about-topbar">
+      <button class="article-back" id="aboutBack" type="button">← Back</button>
+      <span class="about-topbar-title">About</span>
+    </div>
+    <div class="about-scroll" id="aboutScroll">
+      <div class="about-wrap">
+        <h1 class="about-title" id="aboutTitle">KRITZ<span>A</span>AR</h1>
+        <p class="about-lead">KRITZAAR is a free, dark-mode content hub. Read stories, play games, follow AI and world topics, and find cool things, all in one place. There is no sign-up and nothing to install, and every article or game opens right inside the site.</p>
+
+        <h2>What you will find here</h2>
+        <div class="about-grid" id="aboutSections"></div>
+
+        <h2>How to use it</h2>
+        <ul class="about-list">
+          <li><b>Browse:</b> pick a section from the bar at the top, or let the preview strip show you around.</li>
+          <li><b>Search:</b> type in the search box to find articles and games across every section. Searching a topic like games also shows that section and what it is about.</li>
+          <li><b>Save for later:</b> tap Save on an article to keep it in your Saved tab.</li>
+          <li><b>Share:</b> use Share on any article or section to send a link to a friend.</li>
+          <li><b>Play:</b> tap Play on a game card, and use Fullscreen for the best view. If a game will not load, use Retry or open it in a new tab.</li>
+        </ul>
+
+        <h2>Privacy and ads</h2>
+        <p>You do not need an account. Your Saved items and some cached content are stored only in your own browser on your device. KRITZAAR shows ads through Google AdSense, which may use cookies or similar technology to show and measure ads. You can manage ad personalization in your Google ad settings.</p>
+
+        <h2>About political content</h2>
+        <p>The Political section is for information only. KRITZAAR does not promote or endorse any political party, candidate or ideology, and shows a notice before you enter it.</p>
+
+        <div id="aboutContact"></div>
+        <button class="about-home" id="aboutHome" type="button">Start exploring</button>
       </div>
     </div>
   </div>
@@ -1681,6 +1787,8 @@
 
     function goToSearchResult(item) {
       closeSearch();
+      if (item.kind === 'about') { location.hash = '#/about'; return; }
+      if (item.kind === 'section') { kzOpenSection(item.sectionId); return; }
       openCardRef(item.sectionId, item.sub, item.subsub, item.idx, item.card.type === 'game' ? 'game' : 'article');
     }
 
@@ -1689,16 +1797,19 @@
       const q = query.trim().toLowerCase();
       if (!q) { box.classList.remove('show'); box.innerHTML = ''; return; }
 
-      const matches = getAllCardsFlat().filter(it => {
+      const secMatches = (typeof getSectionMatches === 'function') ? getSectionMatches(q) : [];
+      const cardMatches = getAllCardsFlat().filter(it => {
         const title = (it.card.title || '').toLowerCase();
         const tag = (it.card.tag || '').toLowerCase();
         return title.includes(q) || tag.includes(q);
-      }).slice(0, 25);
+      }).slice(0, 25 - secMatches.length);
+      const matches = secMatches.concat(cardMatches);
 
       if (!matches.length) {
         box.innerHTML = `<div class="search-empty">No matches for "${escHtml(query)}"</div>`;
       } else {
         box.innerHTML = matches.map((it, i) => {
+          if (it.kind) return sectionResultHtml(it, i);
           const c = it.card;
           const isGame = c.type === 'game';
           const hasImg = c.image && c.image.trim() !== '';
@@ -1897,6 +2008,8 @@
     async function applyRouteFromHash() {
       hideNotFound();
       const h = location.hash;
+      if (h === '#/about') { if (typeof showAboutUI === 'function') showAboutUI(); return; }
+      if (typeof hideAboutUI === 'function') hideAboutUI();
       if (h.startsWith('#/article/')) { await resolveArticleFromHash(); return; }
       hideArticleUI();
       if (h.startsWith('#/game/')) { await resolveGameFromHash(); return; }
@@ -2226,6 +2339,7 @@
         else if (location.hash.startsWith('#/section/')) resolveSectionFromHash();
         else if (location.hash.startsWith('#/game/')) resolveGameFromHash();
         else if (location.hash === '#/saved') resolveSavedFromHash();
+        else if (location.hash === '#/about') { try { showAboutUI(); } catch(_) {} }
       }, paintedFromCache ? 60 : 800);
     })();
   </script>
@@ -2275,6 +2389,7 @@
         slides.push({ id: id, gold: !!f.isGold });
       });
       root.hidden = false;
+      var dvEl = document.getElementById('kzDivider'); if (dvEl) dvEl.hidden = false;
       render(); start = performance.now(); requestAnimationFrame(tick);
     }
 
@@ -2290,7 +2405,9 @@
 
     function render() {
       track.style.transform = 'translateX(' + (-100 * i) + '%)';
-      frame.classList.toggle('gold', !!(slides[i] && slides[i].gold));
+      var isG = !!(slides[i] && slides[i].gold);
+      frame.classList.toggle('gold', isG);
+      var dv = document.getElementById('kzDivider'); if (dv) dv.classList.toggle('gold', isG);
       Array.prototype.forEach.call(dots.children, function (d, n) { d.setAttribute('aria-selected', n === i ? 'true' : 'false'); });
     }
     function go(n) { i = (n + slides.length) % slides.length; elapsed = 0; start = performance.now(); bar.style.width = '0%'; render(); }
@@ -2341,7 +2458,16 @@
 
     function peakFor(el) {
       var w = Math.max(el.getBoundingClientRect().width, 1);
-      return 1 + Math.min(0.065, 22 / w); // small on wide blocks, bigger on small ones
+      var cap = el.matches('.card') ? 0.07 : 0.2;
+      var grow = Math.min(cap, Math.max(0.06, 48 / w)); // small things pop more, wide blocks less
+      if (el.matches('.htab,.pssb')) grow = 0.3;          // section bar text is tiny: pop it big
+      return 1 + grow;
+    }
+    function glowFor(el) {
+      if (el.matches('.card')) return null;
+      var col = getComputedStyle(el).color;
+      if (el.matches('.htab:not(.gold-tab)')) col = getComputedStyle(document.documentElement).getPropertyValue('--mint').trim() || col;
+      return '0 0 16px ' + col;
     }
     function pick(t) {
       if (!(t instanceof Element)) t = t && t.parentElement;
@@ -2358,13 +2484,14 @@
         el.style.display = 'inline-block';
       }
       var r = el.getBoundingClientRect();
-      if (r.width > innerWidth * 0.92 && r.height > innerHeight * 0.45) return null; // big containers
+      if (r.width > innerWidth * 0.92 && r.height > innerHeight * 0.45) return null;
       if (r.width < 4 || r.height < 4) return null;
       return el;
     }
-    function anim(el, from, to, dur, easing, fill) {
-      var kf = canScale ? [{ scale: String(from) }, { scale: String(to) }] : [{ transform: 'scale(' + from + ')' }, { transform: 'scale(' + to + ')' }];
-      return el.animate(kf, { duration: dur, easing: easing, fill: fill || 'none' });
+    function kf(scale, glow) {
+      var o = canScale ? { scale: String(scale) } : { transform: 'scale(' + scale + ')' };
+      if (glow) o.textShadow = glow;
+      return o;
     }
     function scaleNow(el) {
       if (canScale) { var v = parseFloat(getComputedStyle(el).scale); return isNaN(v) ? 1 : v; }
@@ -2376,22 +2503,23 @@
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       if (cur) release();
       var el = pick(e.target); if (!el) return;
-      var peak = peakFor(el);
-      cur = { el: el, t: performance.now(), x: e.clientX, y: e.clientY, peak: peak, hold: anim(el, 1, peak, 130, 'cubic-bezier(.2,.8,.3,1)', 'forwards') };
+      var peak = peakFor(el), glow = glowFor(el);
+      cur = { el: el, t: performance.now(), x: e.clientX, y: e.clientY, peak: peak, glow: !!glow,
+              hold: el.animate([kf(1), kf(peak, glow)], { duration: 150, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'forwards' }) };
     }
     function release() {
       if (!cur) return;
       var c = cur; cur = null;
-      var wait = Math.max(0, 120 - (performance.now() - c.t)); // quick taps still show the pop
+      var wait = Math.max(0, 140 - (performance.now() - c.t)); // quick taps still show the pop
       setTimeout(function () {
-        var from = Math.max(scaleNow(c.el), c.peak * 0.985);
-        var back = anim(c.el, from, 1, 460, 'cubic-bezier(.34,1.56,.64,1)', 'none');
+        var from = Math.max(scaleNow(c.el), 1 + (c.peak - 1) * 0.97);
+        var sh = c.glow ? getComputedStyle(c.el).textShadow : null;
+        c.el.animate([kf(from, sh), kf(1)], { duration: 520, easing: 'cubic-bezier(.3,1.45,.5,1)' });
         c.hold.cancel();
-        back.onfinish = back.oncancel = function () { /* nothing left behind */ };
       }, wait);
     }
     function move(e) {
-      if (cur && Math.hypot(e.clientX - cur.x, e.clientY - cur.y) > 12) release(); // dragging/scrolling
+      if (cur && Math.hypot(e.clientX - cur.x, e.clientY - cur.y) > 12) release();
     }
     document.addEventListener('pointerdown', down, { passive: true, capture: true });
     window.addEventListener('pointerup', release, { passive: true });
@@ -2399,6 +2527,157 @@
     window.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('blur', release);
   })();
+  </script>
+
+  <script>
+  /* ═══ KZ: section info, section search results, About page ═══ */
+  // Edit the text here. Keys are the section ids from _index.json.
+  var KZ_SECTION_INFO = {
+    stories:     { desc: "Long reads and short stories, from everyday tales to interesting narratives. Open any card to read the full piece right here on KritZaar.",
+                   keywords: ["story","stories","read","reading","article","articles","fiction","long read"] },
+    updates:     { desc: "What is new on KritZaar: new sections, features and changes to the site.",
+                   keywords: ["update","updates","new","news","changelog","what's new","whats new"] },
+    conflict:    { desc: "Articles about conflicts and global tensions, with background so you can follow what is happening.",
+                   keywords: ["conflict","war","world","global","tension","geopolitics"] },
+    fun:         { desc: "Free HTML games you can play instantly in your browser, with no download or sign-up. Tap Play on a card to start, and use Fullscreen for the best view.",
+                   keywords: ["game","games","play","arcade","html games","fun","free games","browser games"] },
+    coolstuff:   { desc: "Interesting finds, gadgets, tools and ideas that are worth a look.",
+                   keywords: ["cool","cool stuff","gadget","gadgets","tools","finds","tech"] },
+    ai:          { desc: "Articles about artificial intelligence: what is new, how it works and how people use it.",
+                   keywords: ["ai","artificial intelligence","chatgpt","machine learning","llm","chatbot"] },
+    interesting: { desc: "Surprising facts, curiosities and things that are worth knowing.",
+                   keywords: ["interesting","facts","fact","curious","curiosity","trivia"] },
+    political:   { desc: "Political news and analysis shown for information only. KritZaar does not promote or endorse any party, candidate or ideology.",
+                   keywords: ["political","politics","election","government","policy"] }
+  };
+  var KZ_ABOUT_KEYWORDS = ["about","kritzaar","info","information","site","help","how","privacy","ads","contact","faq"];
+  var KZ_CONTACT_EMAIL = ""; // optional: e.g. "hello@kritzaar.online" shows a Contact line on the About page
+
+  function kzInfo(id) {
+    var f = (typeof FEEDS !== 'undefined' && FEEDS[id]) || {};
+    var base = KZ_SECTION_INFO[id] || {};
+    return { desc: f.desc || base.desc || '', keywords: base.keywords || [] };
+  }
+
+  /* --- search: sections + About as results --- */
+  function getSectionMatches(q) {
+    var out = [];
+    if (!q || q.length < 2) return out;
+    var aboutHit = KZ_ABOUT_KEYWORDS.some(function (k) { return k.indexOf(q) === 0 || (q.length >= 4 && q.indexOf(k) === 0); });
+    var brand = q.replace(/kritzaar|kritzar/g, '').trim();   // "kritzaar games" searches for "games"
+    if (brand.length < 2) return aboutHit ? [{ kind: 'about' }] : out;
+    q = brand;
+    var ids = Object.keys(FEEDS || {});
+    ids.forEach(function (id) {
+      var f = FEEDS[id], info = kzInfo(id);
+      var label = (f.label || id).toLowerCase();
+      var strong = label.indexOf(q) !== -1 || id.toLowerCase().indexOf(q) !== -1 ||
+        info.keywords.some(function (k) { return k.indexOf(q) !== -1 || (q.length >= 3 && q.indexOf(k) !== -1 && k.length >= 3); });
+      var weak = !strong && !aboutHit && q.length >= 4 && info.desc.toLowerCase().indexOf(q) !== -1;
+      if (strong || weak) out.push({ kind: 'section', sectionId: id, rank: strong ? 0 : 1 });
+    });
+    out.sort(function (a, b) { return a.rank - b.rank; });
+    out = out.slice(0, 3);
+    if (aboutHit) out.push({ kind: 'about' });
+    return out;
+  }
+  function sectionResultHtml(it, i) {
+    function esc(x) { return String(x || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    if (it.kind === 'about') {
+      return '<div class="search-result-item" data-i="' + i + '"><div class="search-result-thumb">i</div><div class="search-result-text">' +
+        '<div class="search-result-title">About KritZaar</div><div class="search-result-desc">What the site is, how to use it, and privacy information.</div></div></div>';
+    }
+    var f = FEEDS[it.sectionId] || {}, info = kzInfo(it.sectionId);
+    return '<div class="search-result-item" data-i="' + i + '"><div class="search-result-thumb">⌂</div><div class="search-result-text">' +
+      '<div class="search-result-title">' + esc(f.label || it.sectionId) + ' · section</div>' +
+      '<div class="search-result-desc">' + esc(info.desc) + '</div></div></div>';
+  }
+  function kzOpenSection(id) {
+    try { switchTab(id); } catch (e) {}
+    var modal = document.getElementById('polModal');
+    if (!(modal && modal.classList.contains('show'))) {
+      var hub = document.getElementById('hub');
+      if (hub) hub.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  /* --- info line under each section header --- */
+  (function () {
+    var pn = document.getElementById('panelName'), pi = document.getElementById('panelInfo');
+    if (!pn || !pi) return;
+    function update() {
+      var txt = (pn.textContent || '').trim(), id = null;
+      if (typeof FEEDS !== 'undefined') Object.keys(FEEDS).forEach(function (k) { if (FEEDS[k] && FEEDS[k].label === txt) id = k; });
+      var d = '';
+      if (id) d = kzInfo(id).desc;
+      else if (txt === 'Saved') d = 'Articles and games you saved with the Save button. They are kept only in this browser on this device.';
+      pi.textContent = d;
+      pi.classList.toggle('gold', !!(id && FEEDS[id] && FEEDS[id].isGold));
+    }
+    new MutationObserver(update).observe(pn, { childList: true, characterData: true, subtree: true });
+    update();
+  })();
+
+  /* --- About page --- */
+  var kzAboutFromLoad = (location.hash === '#/about');
+  function showAboutUI() {
+    var page = document.getElementById('aboutPage'); if (!page) return;
+    var grid = document.getElementById('aboutSections');
+    grid.innerHTML = '';
+    Object.keys(FEEDS || {}).forEach(function (id) {
+      var f = FEEDS[id], info = kzInfo(id);
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'about-card' + (f.isGold ? ' gold' : '');
+      var n = document.createElement('div'); n.className = 'about-card-name'; n.textContent = (f.isGold ? '⚠ ' : '') + f.label;
+      var c = document.createElement('div'); c.className = 'about-card-count'; c.textContent = f.count || '';
+      var d = document.createElement('div'); d.className = 'about-card-desc'; d.textContent = info.desc;
+      b.appendChild(n); b.appendChild(c); b.appendChild(d);
+      b.addEventListener('click', function () { closeAbout(function () { kzOpenSection(id); }); });
+      grid.appendChild(b);
+    });
+    var ct = document.getElementById('aboutContact');
+    ct.innerHTML = '';
+    if (KZ_CONTACT_EMAIL) {
+      var h = document.createElement('h2'); h.textContent = 'Contact';
+      var p = document.createElement('p'); var a = document.createElement('a');
+      a.href = 'mailto:' + KZ_CONTACT_EMAIL; a.textContent = KZ_CONTACT_EMAIL; a.style.color = 'var(--mint)';
+      p.appendChild(document.createTextNode('Questions or feedback? Write to ')); p.appendChild(a);
+      ct.appendChild(h); ct.appendChild(p);
+    }
+    page.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('aboutScroll').scrollTop = 0;
+    document.title = 'About - KRITZAAR';
+  }
+  function hideAboutUI() {
+    var page = document.getElementById('aboutPage');
+    if (page && page.classList.contains('show')) {
+      page.classList.remove('show');
+      document.body.style.overflow = '';
+      document.title = 'KRITZAAR';
+    }
+  }
+  function closeAbout(after) {
+    if (location.hash === '#/about') {
+      if (!kzAboutFromLoad) {
+        // opened inside the app: step back in history, then run the follow-up
+        var done = function () { window.removeEventListener('popstate', done); if (after) setTimeout(after, 30); };
+        if (after) window.addEventListener('popstate', done);
+        history.back();
+        if (!after) return;
+        return;
+      }
+      kzAboutFromLoad = false;
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+    hideAboutUI();
+    if (after) after();
+  }
+  document.getElementById('aboutBack').addEventListener('click', function () { closeAbout(); });
+  document.getElementById('aboutHome').addEventListener('click', function () { closeAbout(function () { window.scrollTo({ top: 0, behavior: 'smooth' }); }); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.getElementById('aboutPage').classList.contains('show')) closeAbout();
+  });
   </script>
 </body>
 </html>
