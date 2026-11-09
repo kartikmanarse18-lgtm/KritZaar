@@ -19,10 +19,10 @@
   <meta property="og:url" content="https://kritzaar.online/">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"KRITZAAR","url":"https://kritzaar.online/","description":"Free content hub with stories, free HTML games, AI, conflict explainers and cool stuff.","hasPart":[
-    {"@type":"CollectionPage","name":"Stories","description":"Long reads and short stories you can read right on KritZaar."},
+    {"@type":"CollectionPage","name":"Stories","description":"Mystery stories and real-life cases, from unsolved disappearances to ghost tales."},
     {"@type":"CollectionPage","name":"Games","description":"Free HTML games you can play instantly in your browser, no download or sign-up."},
     {"@type":"CollectionPage","name":"AI","description":"Articles about artificial intelligence: what is new, how it works and how people use it."},
-    {"@type":"CollectionPage","name":"Cool Stuff","description":"Interesting finds, gadgets, tools and ideas worth a look."},
+    {"@type":"CollectionPage","name":"Cool Stuff","description":"Free tools and mini projects, such as an image compressor, plus small games and experiments."},
     {"@type":"CollectionPage","name":"Conflict","description":"Articles about conflicts and global tensions, with background to help you follow them."},
     {"@type":"CollectionPage","name":"Interesting","description":"Surprising facts, curiosities and things worth knowing."},
     {"@type":"CollectionPage","name":"Updates","description":"What is new on KritZaar: new sections, features and changes."},
@@ -516,7 +516,13 @@
 
     /* ══ KZ SECTION INFO LINE (under each section header) ══ */
     .panel-info{padding:14px 52px 4px;font-size:15px;line-height:1.55;color:var(--slate);max-width:92ch;}
+    .kz-foot{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;padding:32px 52px 44px;margin-top:24px;border-top:1px solid rgba(255,255,255,0.06);}
+    .kz-foot a{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--slate);text-decoration:none;}
+    .kz-foot a:hover{color:var(--white);}
+    @media(max-width:580px){.kz-foot{padding:28px 20px 40px;}}
     .panel-info:empty{display:none;}
+    .panel-info a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--mint);margin-left:4px;white-space:nowrap;}
+    .panel-info a:hover{color:var(--mint);}
     .panel-info.gold{color:rgba(201,162,39,0.8);}
     .search-result-desc{font-size:11px;line-height:1.35;color:var(--slate);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
     .krz-meta a + a{margin-left:18px;}
@@ -579,7 +585,7 @@
     <div class="krz-meta">
       <p>Dark-mode content hub</p>
       <a href="#">↑ Begin the climb</a>
-      <a href="#/about" id="aboutLink">About</a>
+      <a href="about.html" id="aboutLink">About</a>
     </div>
   </div>
 
@@ -620,6 +626,15 @@
       <button class="load-btn" id="loadBtn">Load More</button>
     </div>
   </div>
+
+  <nav class="kz-foot" aria-label="More about KritZaar">
+    <a href="about.html">About</a>
+    <a href="stories.html">Stories</a>
+    <a href="games.html">Games</a>
+    <a href="cool-stuff.html">Cool Stuff</a>
+    <a href="ai.html">AI</a>
+    <a href="interesting.html">Interesting</a>
+  </nav>
 
   <!-- Game iframe modal -->
   <div id="gameModal">
@@ -1828,7 +1843,7 @@
 
     function goToSearchResult(item) {
       closeSearch();
-      if (item.kind === 'about') { location.hash = '#/about'; return; }
+      if (item.kind === 'about') { location.href = 'about.html'; return; }
       if (item.kind === 'section') { kzOpenSection(item.sectionId); return; }
       openCardRef(item.sectionId, item.sub, item.subsub, item.idx, item.card.type === 'game' ? 'game' : 'article');
     }
@@ -2621,16 +2636,16 @@
   /* ═══ KZ: section info, section search results, About page ═══ */
   // Edit the text here. Keys are the section ids from _index.json.
   var KZ_SECTION_INFO = {
-    stories:     { desc: "Long reads and short stories, from everyday tales to interesting narratives. Open any card to read the full piece right here on KritZaar.",
-                   keywords: ["story","stories","read","reading","article","articles","fiction","long read"] },
+    stories:     { desc: "Mystery stories and real-life cases, from unsolved disappearances to ghost tales. Open any card to read the full story right here on KritZaar.",
+                   keywords: ["story","stories","read","reading","article","articles","mystery","ghost","ghost stories","unsolved","true crime"] },
     updates:     { desc: "What is new on KritZaar: new sections, features and changes to the site.",
                    keywords: ["update","updates","new","news","changelog","what's new","whats new"] },
     conflict:    { desc: "Articles about conflicts and global tensions, with background so you can follow what is happening.",
                    keywords: ["conflict","war","world","global","tension","geopolitics"] },
     fun:         { desc: "Free HTML games you can play instantly in your browser, with no download or sign-up. Tap Play on a card to start, and use Fullscreen for the best view.",
                    keywords: ["game","games","play","arcade","html games","fun","free games","browser games"] },
-    coolstuff:   { desc: "Interesting finds, gadgets, tools and ideas that are worth a look.",
-                   keywords: ["cool","cool stuff","gadget","gadgets","tools","finds","tech"] },
+    coolstuff:   { desc: "Free tools and mini projects, such as an image compressor, plus small games and experiments.",
+                   keywords: ["cool","cool stuff","tools","tool","projects","image compressor","pdf","treasure hunt","experiments","tech"] },
     ai:          { desc: "Articles about artificial intelligence: what is new, how it works and how people use it.",
                    keywords: ["ai","artificial intelligence","chatgpt","machine learning","llm","chatbot"] },
     interesting: { desc: "Surprising facts, curiosities and things that are worth knowing.",
@@ -2639,6 +2654,7 @@
                    keywords: ["political","politics","election","government","policy"] }
   };
   var KZ_ABOUT_KEYWORDS = ["about","kritzaar","info","information","site","help","how","privacy","ads","contact","faq"];
+  var KZ_PAGES = { stories: "stories.html", fun: "games.html", coolstuff: "cool-stuff.html", ai: "ai.html", interesting: "interesting.html" }; // sections that have their own page
   var KZ_CONTACT_EMAIL = ""; // optional: e.g. "hello@kritzaar.online" shows a Contact line on the About page
 
   function kzInfo(id) {
@@ -2700,6 +2716,7 @@
       if (id) d = kzInfo(id).desc;
       else if (txt === 'Saved') d = 'Articles and games you saved with the Save button. They are kept only in this browser on this device.';
       pi.textContent = d;
+      if (id && d && KZ_PAGES[id]) { var ml = document.createElement("a"); ml.href = KZ_PAGES[id]; ml.textContent = "Learn more"; pi.appendChild(document.createTextNode(" ")); pi.appendChild(ml); }
       pi.classList.toggle('gold', !!(id && FEEDS[id] && FEEDS[id].isGold));
     }
     new MutationObserver(update).observe(pn, { childList: true, characterData: true, subtree: true });
