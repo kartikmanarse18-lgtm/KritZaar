@@ -1,23 +1,6 @@
 {
   "cards": [
     {
-      "tag": "Game",
-      "time": "5 min",
-      "title": "Treasure hunt ",
-      "url": "https://kartikmanarse18-lgtm.github.io/KritZarr-games/games/Treasure-hunt",
-      "image": "https://user53539.na.imgto.link/public/20261108/e3fe55aafad096e1fcfbf770-file-000000007c1082119a67a40e4b3eb3da.avif",
-      "type": "article",
-      "imagePosX": 24
-    },
-    {
-      "tag": "Fun",
-      "time": "5 min",
-      "title": "Am I attractive ",
-      "url": "https://kartikmanarse18-lgtm.github.io/KritZarr-games/games/face",
-      "image": "",
-      "type": "game"
-    },
-    {
       "tag": "Image compressor ",
       "time": "5 min",
       "title": "Lumen-squeeze ",
