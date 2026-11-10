@@ -104,14 +104,26 @@ def page(title, desc, canonical, body, ld):
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{canonical}">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png">
+<link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#101114">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="KRITZAAR">
 <meta property="og:title" content="{E(title)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{SITE}/brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{SITE}/brand/og-image.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="pages.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4231942641082363"
+     crossorigin="anonymous"></script>
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head>
 <body>
@@ -124,7 +136,7 @@ def header(live, current):
     links = ['<a href="index.html">Home</a>', '<a href="about.html"%s>About</a>' % (' aria-current="page"' if current == 'about.html' else '')]
     for s in live:
         links.append('<a href="%s"%s>%s</a>' % (s['file'], ' aria-current="page"' if current == s['file'] else '', E(s['label'])))
-    return ('<header class="top"><a class="mark" href="index.html">KRITZ<span>A</span>AR</a>'
+    return ('<header class="top"><a class="mark" href="index.html"><img class="mark-logo" src="brand/logo-emblem-white.png" alt="" width="28" height="30">KRITZ<span>A</span>AR</a>'
             '<nav aria-label="Sections">' + ''.join(links) + '</nav></header><div class="glow" aria-hidden="true"></div>')
 
 def footer(live):
@@ -147,6 +159,7 @@ a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 32px;flex-wrap:wrap}
 .mark{font-family:'Orbitron',sans-serif;font-weight:900;font-size:22px;letter-spacing:-1px;color:var(--white)}
+.mark-logo{height:30px;width:auto;vertical-align:middle;margin:-4px 10px 0 0}
 .mark:hover{text-decoration:none}
 .mark span,.ac{color:var(--link);text-shadow:0 0 24px var(--mint),0 0 60px var(--mint-glow)}
 .top nav{display:flex;gap:4px 18px;flex-wrap:wrap}

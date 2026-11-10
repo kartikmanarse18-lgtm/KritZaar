@@ -7,8 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KRITZAAR – Stories, Free Games, AI &amp; Cool Stuff</title>
   <link rel="canonical" href="https://kritzaar.online/">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png">
+  <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#101114">
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://kritzaar.online/brand/og-image.png">
   <meta name="twitter:title" content="KRITZAAR – Stories, Free Games, AI &amp; Cool Stuff">
   <meta name="twitter:description" content="Dark-mode content hub: mystery stories, free browser games, AI explainers and cool finds. No sign-up.">
   <meta name="description" content="KRITZAAR is a free content hub: stories, free HTML games you can play in your browser, AI, conflict explainers, cool stuff and more. No sign-up needed.">
@@ -17,6 +23,11 @@
   <meta property="og:title" content="KRITZAAR - stories, games, AI and more">
   <meta property="og:description" content="Free content hub with stories, free HTML games, AI, conflict explainers and cool stuff. No sign-up needed.">
   <meta property="og:url" content="https://kritzaar.online/">
+  <meta property="og:image" content="https://kritzaar.online/brand/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="KRITZAAR logo">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"KRITZAAR","url":"https://kritzaar.online/","logo":"https://kritzaar.online/brand/icon-512.png"}</script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"KRITZAAR","url":"https://kritzaar.online/","description":"Free content hub with stories, free HTML games, AI, conflict explainers and cool stuff.","hasPart":[
     {"@type":"CollectionPage","name":"Stories","description":"Mystery stories and real-life cases, from unsolved disappearances to ghost tales."},
@@ -60,6 +71,8 @@
     .krz-wordmark{font-family:'Orbitron',sans-serif;font-size:clamp(36px,6vw,80px);font-weight:900;color:var(--white);letter-spacing:-2px;line-height:1;}
     .krz-wordmark .ac{color:var(--mint);text-shadow:0 0 24px var(--mint),0 0 60px var(--mint-glow);}
     .krz-main{min-width:0;}
+    .krz-lockup{display:flex;align-items:center;gap:clamp(12px,2.4vw,20px);}
+    .krz-logo{height:clamp(46px,9vw,78px);width:auto;flex:none;opacity:.95;filter:drop-shadow(0 0 18px rgba(116,20,43,.55));}
     .krz-tagline{margin-top:14px;max-width:560px;font-size:14px;line-height:1.55;letter-spacing:.4px;color:rgba(155,164,176,.8);}
     .krz-meta{text-align:right;}
     .krz-meta p{font-size:10px;letter-spacing:5px;color:var(--slate);text-transform:uppercase;margin-bottom:8px;}
@@ -579,7 +592,7 @@
 
   <div class="krz-bar">
     <div class="krz-main">
-      <h1 class="krz-wordmark">KRITZ<span class="ac">A</span>AR</h1>
+      <div class="krz-lockup"><img class="krz-logo" src="brand/logo-emblem-white.png" alt="" width="200" height="211"><h1 class="krz-wordmark">KRITZ<span class="ac">A</span>AR</h1></div>
       <p class="krz-tagline">Mystery stories, free browser games, AI explainers and cool finds, all in one dark-mode hub. No sign-up needed.</p>
     </div>
     <div class="krz-meta">

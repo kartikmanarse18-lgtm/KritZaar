@@ -8,6 +8,7 @@ a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 32px;flex-wrap:wrap}
 .mark{font-family:'Orbitron',sans-serif;font-weight:900;font-size:22px;letter-spacing:-1px;color:var(--white)}
+.mark-logo{height:30px;width:auto;vertical-align:middle;margin:-4px 10px 0 0}
 .mark:hover{text-decoration:none}
 .mark span,.ac{color:var(--link);text-shadow:0 0 24px var(--mint),0 0 60px var(--mint-glow)}
 .top nav{display:flex;gap:4px 18px;flex-wrap:wrap}
