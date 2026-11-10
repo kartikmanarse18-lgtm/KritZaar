@@ -859,6 +859,18 @@
     const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — feed content changes fairly often
     let paintedFromCache = false; // lets init skip the artificial loading delay
 
+    // Cards marked draft:true in the admin are hidden from visitors (also inside sub-sections).
+    function kzStrip(d) {
+      if (!d || typeof d !== 'object') return d;
+      const out = { ...d };
+      if (Array.isArray(out.cards)) out.cards = out.cards.filter(c => !(c && c.draft));
+      if (out.subsections && typeof out.subsections === 'object') {
+        const subs = {};
+        Object.keys(out.subsections).forEach(k => { subs[k] = kzStrip(out.subsections[k]); });
+        out.subsections = subs;
+      }
+      return out;
+    }
     function cacheRead(key) {
       try {
         const raw = localStorage.getItem(CACHE_NS + key);
@@ -877,8 +889,9 @@
       if (sectionFetched[id]) return; // already loaded this session
       const cached = cacheRead('section:' + id);
       if (cached && FEEDS[id]) {
-        FEEDS[id].cards = cached.data.cards || [];
-        if (cached.data.subsections) FEEDS[id].subsections = cached.data.subsections;
+        const cd = kzStrip(cached.data);
+        FEEDS[id].cards = cd.cards || [];
+        if (cd.subsections) FEEDS[id].subsections = cd.subsections;
         sectionFetched[id] = true;
         revalidateSection(id); // always refresh silently in the background
         return;
@@ -892,7 +905,7 @@
       try {
         const r = await fetch(RAW_BASE + id + '.json' + bust);
         if (!r.ok) throw new Error('Section "' + id + '" not found');
-        const data = await r.json();
+        const data = kzStrip(await r.json());
         if (FEEDS[id]) {
           FEEDS[id].cards = data.cards || [];
           if (data.subsections) FEEDS[id].subsections = data.subsections;
@@ -2669,6 +2682,24 @@
   };
   var KZ_ABOUT_KEYWORDS = ["about","kritzaar","info","information","site","help","how","privacy","ads","contact","faq"];
   var KZ_PAGES = { stories: "stories.html", fun: "games.html", coolstuff: "cool-stuff.html", ai: "ai.html", interesting: "interesting.html" }; // sections that have their own page
+  // pages.json (published by the admin) lists which sections have their own page; falls back to the list above if missing
+  (function () {
+    try {
+      fetch('pages.json?v=' + Date.now()).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (!j || !j.pages) return;
+        var map = {}, nav = document.querySelector('.kz-foot');
+        Object.keys(j.pages).forEach(function (id) { map[id] = j.pages[id].file; });
+        KZ_PAGES = map;
+        if (nav) {
+          nav.innerHTML = '';
+          var add = function (href, label) { var a = document.createElement('a'); a.href = href; a.textContent = label; nav.appendChild(a); };
+          add(j.about || 'about.html', 'About');
+          Object.keys(j.pages).forEach(function (id) { add(j.pages[id].file, j.pages[id].label); });
+        }
+        if (window.kzRefreshInfo) window.kzRefreshInfo();
+      }).catch(function () {});
+    } catch (e) {}
+  })();
   var KZ_CONTACT_EMAIL = ""; // optional: e.g. "hello@kritzaar.online" shows a Contact line on the About page
 
   function kzInfo(id) {
@@ -2734,6 +2765,7 @@
       pi.classList.toggle('gold', !!(id && FEEDS[id] && FEEDS[id].isGold));
     }
     new MutationObserver(update).observe(pn, { childList: true, characterData: true, subtree: true });
+    window.kzRefreshInfo = update;
     update();
   })();
 

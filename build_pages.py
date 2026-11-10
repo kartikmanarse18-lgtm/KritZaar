@@ -72,6 +72,7 @@ def clean_title(t):
     return t.title() if t.isupper() else t
 
 def real(c):
+    if c.get('draft'): return False                                    # hidden from the site
     t = str(c.get('title') or '')
     if len(re.findall(r'[A-Za-z0-9]', t)) < 3: return False          # placeholders like "...."
     if 'drive.google.com' in str(c.get('url') or ''): return False    # personal Drive folders
@@ -302,6 +303,8 @@ def main():
     sm.append('</urlset>\n')
     open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write('\n'.join(sm))
 
+    manifest = {'about': 'about.html', 'pages': {s['id']: {'file': s['file'], 'label': s['label']} for s in live}}
+    open(os.path.join(OUT, 'pages.json'), 'w', encoding='utf-8').write(json.dumps(manifest, ensure_ascii=False))
     print('pages written:', ['about.html'] + [s['file'] for s in live])
     print('skipped (no real articles yet):', skipped)
     for s in live: print(' ', s['label'], len(s['items']), 'items')
