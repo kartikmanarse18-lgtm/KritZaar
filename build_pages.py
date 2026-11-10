@@ -104,6 +104,7 @@ def page(title, desc, canonical, body, ld):
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{canonical}">
+<link rel="icon" type="image/svg+xml" href="/brand/favicon.svg">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png">
 <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
@@ -136,7 +137,7 @@ def header(live, current):
     links = ['<a href="index.html">Home</a>', '<a href="about.html"%s>About</a>' % (' aria-current="page"' if current == 'about.html' else '')]
     for s in live:
         links.append('<a href="%s"%s>%s</a>' % (s['file'], ' aria-current="page"' if current == s['file'] else '', E(s['label'])))
-    return ('<header class="top"><a class="mark" href="index.html"><img class="mark-logo" src="brand/logo-emblem-white.png" alt="" width="28" height="30">KRITZ<span>A</span>AR</a>'
+    return ('<header class="top"><a class="mark" href="index.html"><img class="mark-logo" src="brand/logo-emblem-white.svg" alt="" width="28" height="30">KRITZ<span>A</span>AR</a>'
             '<nav aria-label="Sections">' + ''.join(links) + '</nav></header><div class="glow" aria-hidden="true"></div>')
 
 def footer(live):
