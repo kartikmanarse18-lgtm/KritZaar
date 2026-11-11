@@ -261,6 +261,17 @@
     .ov-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;}
     .ov-shot img.ready{opacity:1;}
     .ov-shot.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.07) 50%,transparent 70%);background-size:200% 100%;animation:kzpvSh 1.2s linear infinite;}
+    .kz-live{position:absolute;inset:0;overflow:hidden;background:#0b0d0f;}
+    .kz-live iframe{position:absolute;left:0;top:0;border:0;background:#fff;transform-origin:0 0;}
+    .kz-live.noint iframe,.kz-live.noint .kz-txt{pointer-events:none;}
+    .kz-txt{position:absolute;inset:0;overflow:auto;padding:14px 16px;font:14px/1.6 var(--kz-font-body,sans-serif);color:var(--white);background:var(--card);}
+    .kz-live.noint .kz-txt{overflow:hidden;}
+    .kz-txt h4{margin:0 0 10px;font:900 15px/1.35 var(--kz-font-head,sans-serif);} .kz-txt p{margin:0 0 10px;color:var(--slate);}
+    .kz-live-badge{position:absolute;left:8px;bottom:8px;z-index:3;padding:3px 8px;border-radius:20px;font:700 9px/1.4 var(--kz-font-body,sans-serif);letter-spacing:2px;color:#06110d;background:var(--mint);pointer-events:none;opacity:.9;}
+    .kz-tap{position:absolute;z-index:3;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid var(--mint);background:rgba(255,255,255,.18);pointer-events:none;animation:kzTap .9s ease-out forwards;}
+    @keyframes kzTap{from{transform:scale(.3);opacity:1}to{transform:scale(1.5);opacity:0}}
+    .kzpv-shot.live{aspect-ratio:auto;height:min(60dvh,520px);}
+    .kzpv-x{z-index:5;}
     .ov-tag{font-family:var(--kz-font-body);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);margin-bottom:10px;}
     .card-gold .ov-tag{color:var(--gold);}
     .card-game .ov-tag{color:var(--game);}
@@ -1947,28 +1958,127 @@
       img.src = srcs[0].url;
       return true;
     }
+    /* ══ LIVE PREVIEW — shows the real page / game / article text instead of a cover image ══
+       Per-card options (set in the admin): previewMode live|image, previewDevice phone|tablet|desktop,
+       previewScroll / previewScrollEnd (px), previewSpeed (px/s), previewInteractive, previewTaps ("x%,y%,sec" per line). */
+    const KZ_DEV = { phone: [420, 780], tablet: [820, 1060], desktop: [1280, 800] };
+    function kzLiveSpec(c, isGame) {
+      if (c.previewMode === 'image') return null;
+      if (/^https?:\/\//i.test(c.url || '')) return { type: 'frame', url: c.url };
+      if (!isGame && ((c.content || '').trim() || c.desc || c.description)) return { type: 'text' };
+      return null;
+    }
+    function kzParseTaps(v) {
+      const lines = Array.isArray(v) ? v.map(t => [t.x, t.y, t.t]) : String(v || '').split(/\n/).map(l => l.split(/[,\s]+/));
+      return lines.map(a => ({ x: +a[0], y: +a[1], t: +a[2] || 0 })).filter(t => isFinite(t.x) && isFinite(t.y) && t.x >= 0 && t.x <= 100 && t.y >= 0 && t.y <= 100);
+    }
+    function kzLiveMount(box, c, isGame, interactive, onFail) {
+      const spec = kzLiveSpec(c, isGame); if (!spec) return null;
+      const wrap = document.createElement('div'); wrap.className = 'kz-live' + (interactive ? '' : ' noint');
+      box.insertBefore(wrap, box.firstChild);
+      const timers = [], H = { destroy() { timers.forEach(clearTimeout); timers.length = 0; cancelAnimationFrame(H.raf); clearInterval(H.iv); if (H.ro) H.ro.disconnect(); wrap.remove(); } };
+      const start = Math.max(0, +c.previewScroll || 0), end = Math.max(start, +c.previewScrollEnd || start), speed = Math.max(5, +c.previewSpeed || 40);
+      const dev = KZ_DEV[c.previewDevice] || KZ_DEV.desktop, taps = kzParseTaps(c.previewTaps);
+      let setOff, frame = null, userTook = false;
+      if (spec.type === 'frame') {
+        frame = document.createElement('iframe');
+        frame.setAttribute('loading', 'eager'); frame.setAttribute('referrerpolicy', 'no-referrer');
+        frame.setAttribute('allow', 'fullscreen'); frame.title = 'Live preview of ' + (c.title || 'content');
+        let loaded = false;
+        frame.addEventListener('load', () => { loaded = true; box.classList.remove('loading'); });
+        timers.push(setTimeout(() => { if (!loaded) { H.destroy(); onFail && onFail(); } }, 9000));
+        const layout = () => {
+          const sc = (wrap.clientWidth || 1) / dev[0];
+          frame.style.width = dev[0] + 'px';
+          frame.style.height = Math.ceil((wrap.clientHeight || 1) / sc + end) + 'px';
+          H.sc = sc; setOff(H.off || start);
+        };
+        setOff = off => { H.off = off; frame.style.transform = 'scale(' + H.sc + ') translateY(' + (-off) + 'px)'; };
+        wrap.appendChild(frame); layout(); frame.src = spec.url;
+        if (window.ResizeObserver) { H.ro = new ResizeObserver(layout); H.ro.observe(wrap); }
+      } else {
+        const txt = document.createElement('div'); txt.className = 'kz-txt';
+        const raw = (c.content || '').trim();
+        txt.innerHTML = '<h4>' + escHtml(c.title || '') + '</h4>' + (raw ? raw.split(/\n{2,}/).map(p => '<p>' + escHtml(p).replace(/\n/g, '<br>') + '</p>').join('') : '<p>' + escHtml(c.desc || c.description || '') + '</p>');
+        wrap.appendChild(txt); box.classList.remove('loading');
+        setOff = off => { H.off = off; txt.scrollTop = off; };
+        requestAnimationFrame(() => setOff(start));
+      }
+      // auto-scroll demo (start -> end -> back), stops as soon as the visitor touches the content
+      if (end > start) {
+        let dir = 1, last = performance.now(), hold = 0, off = start;
+        const stop = () => { userTook = true; cancelAnimationFrame(H.raf); };
+        if (interactive) ['pointerdown', 'wheel', 'touchstart'].forEach(ev => wrap.addEventListener(ev, stop, { passive: true, once: true }));
+        const tick = now => {
+          if (userTook) return;
+          const dt = Math.min(0.05, (now - last) / 1000); last = now;
+          if (hold > 0) hold -= dt; else {
+            off += dir * speed * dt;
+            if (off >= end) { off = end; dir = -1; hold = 1.5; } else if (off <= start) { off = start; dir = 1; hold = 1.5; }
+            setOff(off);
+          }
+          H.raf = requestAnimationFrame(tick);
+        };
+        H.raf = requestAnimationFrame(tick);
+      }
+      // tap guides: a ripple at each admin-set point (also posted to the page as {kz:'preview-tap',x,y} for games that listen)
+      if (taps.length) {
+        const cycle = (Math.max.apply(null, taps.map(t => t.t)) + 2) * 1000;
+        const run = () => taps.forEach(tp => timers.push(setTimeout(() => {
+          const r = document.createElement('i'); r.className = 'kz-tap'; r.style.left = tp.x + '%'; r.style.top = tp.y + '%';
+          wrap.appendChild(r); setTimeout(() => r.remove(), 950);
+          try { frame && frame.contentWindow && frame.contentWindow.postMessage({ kz: 'preview-tap', x: tp.x, y: tp.y }, '*'); } catch (_) {}
+        }, tp.t * 1000)));
+        run(); H.iv = setInterval(run, cycle);
+      }
+      const badge = document.createElement('span'); badge.className = 'kz-live-badge';
+      badge.textContent = interactive ? 'LIVE · scroll & tap' : 'LIVE'; wrap.appendChild(badge);
+      return H;
+    }
+    function kzLiveDestroy(box) { if (box._kzLive) { box._kzLive.destroy(); box._kzLive = null; } }
     function kzPvLoadShot(c, isGame) {
       const box = document.getElementById('kzPvShot');
+      kzLiveDestroy(box);
       box.querySelectorAll('span[aria-hidden]').forEach(n => n.remove());
-      box.classList.remove('none'); box.classList.add('loading');
-      kzShotLoad(box, c, {}, () => { box.classList.remove('loading'); box.classList.add('none'); box.insertAdjacentHTML('afterbegin', '<span aria-hidden="true">' + (isGame ? '▶' : '📖') + '</span>'); });
+      box.classList.remove('none', 'live'); box.classList.add('loading');
+      const none = () => { box.classList.remove('loading', 'live'); box.classList.add('none'); box.insertAdjacentHTML('afterbegin', '<span aria-hidden="true">' + (isGame ? '▶' : '📖') + '</span>'); };
+      const fallback = () => { box.classList.remove('live'); box.classList.add('loading'); kzShotLoad(box, c, {}, none); };
+      const live = kzLiveMount(box, c, isGame, c.previewInteractive !== 'no' && c.previewInteractive !== false, fallback);
+      if (live) { box._kzLive = live; box.classList.add('live'); } else fallback();
     }
-    /* Hover preview: when the cursor enters a card, its overlay shows the screenshot (loaded once). */
+    /* Hover preview: after a short delay the card overlay shows the live content (not interactive);
+       it is torn down on leave so only one page/game runs at a time. */
+    let kzHovCard = null, kzHovTimer = 0, kzHovBox = null;
+    function kzHovStop() {
+      clearTimeout(kzHovTimer);
+      if (kzHovBox) { kzLiveDestroy(kzHovBox); kzHovBox._kzTok = (kzHovBox._kzTok || 0) + 1; kzHovBox.remove(); kzHovBox = null; }
+      kzHovCard = null;
+    }
+    function kzHovStart(cardEl) {
+      const arr = resolveCardsArray(cardEl.dataset.section, cardEl.dataset.sub || null, cardEl.dataset.subsub || null);
+      const c = arr && arr[parseInt(cardEl.dataset.idx, 10)], ov = cardEl.querySelector('.card-overlay');
+      if (!c || !ov) return;
+      const isGame = cardEl.dataset.kind === 'game';
+      const box = kzHovBox = document.createElement('div'); box.className = 'ov-shot loading';
+      ov.insertBefore(box, ov.firstChild);
+      const drop = () => { if (kzHovBox === box) kzHovBox = null; box.remove(); };
+      const viaImage = () => kzShotLoad(box, c, { noImage: !isGame }, drop);
+      const live = kzLiveMount(box, c, isGame, false, viaImage);
+      if (live) box._kzLive = live; else viaImage();
+    }
     (function () {
       const pc = document.getElementById('panelsContainer');
       if (!pc || !window.matchMedia || !matchMedia('(hover:hover)').matches) return;
       pc.addEventListener('mouseover', e => {
         if (!window.KZ_PV.hover) return;
         const cardEl = e.target.closest && e.target.closest('.card');
-        if (!cardEl || cardEl.dataset.kzHov || cardEl.dataset.savedSection) return;
-        cardEl.dataset.kzHov = '1';
-        const arr = resolveCardsArray(cardEl.dataset.section, cardEl.dataset.sub || null, cardEl.dataset.subsub || null);
-        const c = arr && arr[parseInt(cardEl.dataset.idx, 10)], ov = cardEl.querySelector('.card-overlay');
-        if (!c || !ov) return;
-        const isGame = cardEl.dataset.kind === 'game';
-        const box = document.createElement('div'); box.className = 'ov-shot loading';
-        ov.insertBefore(box, ov.firstChild);
-        kzShotLoad(box, c, { noImage: !isGame }, () => box.remove());
+        if (!cardEl || cardEl === kzHovCard || cardEl.dataset.savedSection) return;
+        kzHovStop(); kzHovCard = cardEl; kzHovTimer = setTimeout(() => kzHovStart(cardEl), 350);
+      });
+      pc.addEventListener('mouseout', e => {
+        if (!kzHovCard) return;
+        const to = e.relatedTarget; if (to && kzHovCard.contains(to)) return;
+        kzHovStop();
       });
     })();
     function kzShowPreview(sectionId, sub, subsub, idx, kind) {
@@ -1986,8 +2096,8 @@
       document.getElementById('kzPvGo').textContent = isGame ? '▶ Play now' : 'Read now';
       const saved = isBookmarked(sectionId, articleSlug(c, idx));
       document.getElementById('kzPvSave').textContent = saved ? '★ Saved' : '☆ Save';
-      kzPvLoadShot(c, isGame);
       document.getElementById('kzPv').classList.add('show');
+      kzPvLoadShot(c, isGame);
       document.body.style.overflow = 'hidden';
       setTimeout(() => document.getElementById('kzPvGo').focus({ preventScroll: true }), 30);
     }
@@ -1995,6 +2105,7 @@
       const el = document.getElementById('kzPv');
       if (!el.classList.contains('show')) return false;
       el.classList.remove('show');
+      kzLiveDestroy(document.getElementById('kzPvShot'));
       const img = document.querySelector('#kzPvShot img'); if (img) { img.onerror = img.onload = null; img.remove(); }
       document.body.style.overflow = '';
       return true;
