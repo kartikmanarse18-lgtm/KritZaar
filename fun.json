@@ -7,7 +7,30 @@
       "url": "https://games.kritzaar.online/games/Treasure-hunt",
       "image": "https://user53539.na.imgto.link/public/20261108/e3fe55aafad096e1fcfbf770-file-000000007c1082119a67a40e4b3eb3da.avif",
       "type": "article",
-      "imagePosX": 24
+      "imagePosX": 62,
+      "previewPosY": 50,
+      "previewSteps": [
+        {
+          "type": "stop",
+          "y": 332,
+          "wait": 1.2
+        },
+        {
+          "type": "tap",
+          "x": 55.9,
+          "y": 35.7,
+          "sy": 131,
+          "wait": 1
+        },
+        {
+          "type": "tap",
+          "x": 45.8,
+          "y": 64,
+          "sy": 131,
+          "wait": 1
+        }
+      ],
+      "previewDevice": "desktop"
     },
     {
       "tag": "oxo",
@@ -25,7 +48,39 @@
       "title": "Am I attractive ",
       "url": "https://games.kritzaar.online/games/face",
       "image": "",
-      "type": "game"
+      "type": "game",
+      "previewSteps": [
+        {
+          "type": "stop",
+          "y": 74,
+          "wait": 2
+        },
+        {
+          "type": "stop",
+          "y": 369,
+          "wait": 2
+        },
+        {
+          "type": "stop",
+          "y": 73,
+          "wait": 1.2
+        },
+        {
+          "type": "tap",
+          "x": 46.3,
+          "y": 70.3,
+          "sy": 73,
+          "wait": 2
+        },
+        {
+          "type": "tap",
+          "x": 71.3,
+          "y": 50,
+          "sy": 73,
+          "wait": 2
+        }
+      ],
+      "previewDevice": "phone"
     },
     {
       "tag": "HANGMAN",
