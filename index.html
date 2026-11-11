@@ -769,10 +769,11 @@
     const GITHUB_REPO = 'KritZaar';
     const GITHUB_FILE = 'feeds.json'; // legacy fallback path
 
-    // Base raw URL — folder prefix derived from GITHUB_FILE
+    // Content is loaded from this site's own domain (works on GitHub Pages and Cloudflare Pages,
+    // and keeps working if the GitHub repo is made private). Folder prefix derived from GITHUB_FILE.
     const _folder = GITHUB_FILE.includes('/') ? GITHUB_FILE.replace(/\/[^/]+$/, '') : '';
-    const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${_folder ? _folder + '/' : ''}`;
-    const RAW_LEGACY = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${GITHUB_FILE}`;
+    const RAW_BASE = '/' + (_folder ? _folder + '/' : '');
+    const RAW_LEGACY = '/' + GITHUB_FILE;
 
     /* ════════════════════════════════════════════
        FETCH FEEDS — split files + legacy fallback
