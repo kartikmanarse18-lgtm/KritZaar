@@ -1,0 +1,57 @@
+{
+  "cards": [
+    {
+      "tag": "Encoder/decoder",
+      "time": "Private ",
+      "title": "Stagnograph ",
+      "url": "https://games.kritzaar.online/app/stagnograph",
+      "image": "https://user53539.na.imgto.link/public/20261111/1b278c0e873ca2fffc1ab412-file-00000000bb688211878f5119b89a7d04.avif",
+      "type": "game",
+      "desc": "Stagnography: Steganography is the technique of hiding information inside another file, such as:\nHiding one image inside another image.\nEmbedding secret messages inside photographs.\nConcealing data inside audio or video files.\nMaking hidden information invisible to ordinary viewers.",
+      "preview": ""
+    },
+    {
+      "tag": "New",
+      "time": "5 min",
+      "title": "Scan and sheet ",
+      "url": "https://games.kritzaar.online/games/scan-and-sheets.html",
+      "image": "",
+      "type": "article"
+    },
+    {
+      "tag": "New",
+      "time": "5 min",
+      "title": "Dev tool",
+      "url": "https://games.kritzaar.online/games/dev-toolbox.html",
+      "image": "",
+      "type": "article"
+    },
+    {
+      "tag": "New",
+      "time": "5 min",
+      "title": "Pdf studio ",
+      "url": "https://games.kritzaar.online/games/pdf-studio.html",
+      "image": "",
+      "type": "article"
+    },
+    {
+      "tag": "Image compressor ",
+      "time": "5 min",
+      "title": "Lumen-squeeze ",
+      "url": "https://games.kritzaar.online/games/4.image/lumen-squeeze.html",
+      "image": "",
+      "type": "article",
+      "desc": "Intelligent health companion ",
+      "content": "Works 24/7  to provide medical assistance....sos system..ai symptoms checker.... telemedicine.. smart pharmacy ",
+      "slug": ""
+    },
+    {
+      "tag": "New",
+      "time": "5 min",
+      "title": "Text and privacy ",
+      "url": "https://games.kritzaar.online/games/text-and-privacy.html",
+      "image": "",
+      "type": "article"
+    }
+  ]
+}
