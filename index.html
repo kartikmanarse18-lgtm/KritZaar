@@ -292,6 +292,29 @@
     .card-game .card-cta{--cc:#B98BF5;--ccg:rgba(185,139,245,.22);}
 
     /* Game iframe modal */
+
+    /* ══ CLICK PREVIEW SHEET — screenshot shown when a card is tapped ══ */
+    #kzPv{position:fixed;inset:0;z-index:1400;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+    #kzPv.show{display:flex;}
+    .kzpv-sheet{width:100%;max-width:640px;max-height:calc(100dvh - 36px);overflow:auto;background:var(--card);border:1px solid rgba(155,164,176,.16);border-radius:var(--kz-radius,16px);box-shadow:0 24px 80px rgba(0,0,0,.6);animation:kzpvIn .22s ease-out both;}
+    @keyframes kzpvIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+    .kzpv-shot{position:relative;aspect-ratio:16/10;background:var(--bg);overflow:hidden;border-radius:var(--kz-radius,16px) var(--kz-radius,16px) 0 0;}
+    .kzpv-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transition:opacity .35s;}
+    .kzpv-shot img.ready{opacity:1;}
+    .kzpv-shot.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.06) 50%,transparent 70%);background-size:200% 100%;animation:kzpvSh 1.2s linear infinite;}
+    @keyframes kzpvSh{from{background-position:200% 0}to{background-position:-200% 0}}
+    .kzpv-shot.none{display:flex;align-items:center;justify-content:center;font-size:54px;color:var(--mint);background:radial-gradient(circle at 50% 40%,var(--mint-dim),var(--bg) 70%);}
+    .kzpv-x{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.55);color:#fff;font-size:16px;cursor:pointer;}
+    .kzpv-body{padding:18px 20px 20px;}
+    .kzpv-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mint);}
+    .kzpv-title{margin:6px 0 0;font-family:var(--kz-font-head,'Orbitron',sans-serif);font-size:clamp(18px,4.6vw,24px);line-height:1.25;color:var(--white);}
+    .kzpv-desc{margin:10px 0 0;font-size:16px;line-height:1.55;color:var(--slate);}
+    .kzpv-meta{margin-top:8px;font-size:13px;color:var(--slate);opacity:.85;}
+    .kzpv-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+    .kzpv-go{flex:1 1 180px;min-height:48px;border:0;border-radius:12px;background:var(--mint);color:var(--bg);font-weight:800;font-size:15px;letter-spacing:1px;cursor:pointer;}
+    .kzpv-sec{min-height:48px;padding:0 16px;border-radius:12px;border:1px solid rgba(155,164,176,.25);background:transparent;color:var(--white);font-size:15px;cursor:pointer;}
+    .kzpv-go:focus-visible,.kzpv-sec:focus-visible,.kzpv-x:focus-visible{outline:2px solid var(--mint);outline-offset:2px;}
+    @media(prefers-reduced-motion:reduce){.kzpv-sheet{animation:none}.kzpv-shot img{transition:none}.kzpv-shot.loading::after{animation:none}}
     #gameModal{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,var(--kz-game-dim));display:none;flex-direction:column;}
     #gameModal.show{display:flex;}
     .game-modal-bar{height:48px;background:rgba(22,24,26,0.98);border-bottom:1px solid rgba(var(--game-rgb),0.2);display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;}
@@ -661,6 +684,26 @@
     <a href="ai.html">AI</a>
     <a href="interesting.html">Interesting</a>
   </nav>
+
+  <!-- Click preview sheet -->
+  <div id="kzPv" role="dialog" aria-modal="true" aria-labelledby="kzPvTitle">
+    <div class="kzpv-sheet" id="kzPvSheet">
+      <div class="kzpv-shot loading" id="kzPvShot">
+        <button class="kzpv-x" type="button" id="kzPvClose" aria-label="Close preview">✕</button>
+      </div>
+      <div class="kzpv-body">
+        <span class="kzpv-tag" id="kzPvTag"></span>
+        <h2 class="kzpv-title" id="kzPvTitle"></h2>
+        <p class="kzpv-desc" id="kzPvDesc"></p>
+        <div class="kzpv-meta" id="kzPvMeta"></div>
+        <div class="kzpv-actions">
+          <button class="kzpv-go" type="button" id="kzPvGo">Open</button>
+          <button class="kzpv-sec" type="button" id="kzPvSave">☆ Save</button>
+          <button class="kzpv-sec" type="button" id="kzPvShare">⤴ Share</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Game iframe modal -->
   <div id="gameModal">
@@ -1080,7 +1123,7 @@
       ['accent','bg','card','gold','slate','white','danger','gradA','gradB','gameAccent'].forEach(k => { const c = col(t[k]); if (c) out[k] = c; });
       [['gridOpacity',0,20],['glowIntensity',0,100],['gradAngle',0,360],['radius',0,28],['readerWidth',480,960],['readerSize',13,24],['readerLine',1.3,2.4],['gameDim',0.5,1]].forEach(([k,lo,hi]) => { const n = num(t[k], lo, hi); if (n !== undefined) out[k] = n; });
       ['fontHead','fontBody'].forEach(k => { if (typeof t[k] === 'string' && KZ_FONTS[t[k]]) out[k] = t[k]; });
-      ['gradOn','gradWordmark','gradHeadings','cardGlow','anim'].forEach(k => { if (typeof t[k] === 'boolean') out[k] = t[k]; });
+      ['gradOn','gradWordmark','gradHeadings','cardGlow','anim','previewSheet','autoShot'].forEach(k => { if (typeof t[k] === 'boolean') out[k] = t[k]; });
       return out;
     }
     function kzApplyThemeExtras(t) {
@@ -1104,6 +1147,7 @@
       setv('--kz-reader-lh', t.readerLine ? String(+t.readerLine) : '');
       if (isHex(t.gameAccent)) { s.setProperty('--game', t.gameAccent); s.setProperty('--game-rgb', hexRgb(t.gameAccent)); } else { s.removeProperty('--game'); s.removeProperty('--game-rgb'); }
       setv('--kz-game-dim', t.gameDim !== undefined ? String(+t.gameDim) : '');
+      window.KZ_PV = { on: t.previewSheet !== false, auto: t.autoShot !== false };
     }
     function applyTheme(t) {
       if (!t) return;
@@ -1754,6 +1798,7 @@
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
+      if (kzClosePreview()) return;
       closeGame();
       if (document.getElementById('articlePage')?.classList.contains('show')) closeArticle();
     });
@@ -1854,6 +1899,88 @@
       }
     }
 
+
+    /* ── Click preview sheet: screenshot + summary before a card opens ── */
+    window.KZ_PV = window.KZ_PV || { on: true, auto: true };
+    let kzPvRef = null;
+    function kzPvSources(c) {
+      const list = [];
+      const add = u => { u = String(u || '').trim(); if (u && list.indexOf(u) === -1) list.push(u); };
+      add(c.preview);
+      if (window.KZ_PV.auto && /^https?:\/\//i.test(c.url || '')) add('https://s.wordpress.com/mshots/v1/' + encodeURIComponent(c.url) + '?w=960&h=600');
+      add(c.image);
+      return list;
+    }
+    function kzPvLoadShot(c, isGame) {
+      const box = document.getElementById('kzPvShot');
+      box.querySelectorAll('img,span[aria-hidden]').forEach(n => n.remove());
+      box.classList.remove('none'); box.classList.add('loading');
+      const srcs = kzPvSources(c);
+      const noShot = () => { box.classList.remove('loading'); box.classList.add('none'); box.insertAdjacentHTML('afterbegin', '<span aria-hidden="true">' + (isGame ? '▶' : '📖') + '</span>'); };
+      if (!srcs.length) { noShot(); return; }
+      let n = 0;
+      const img = new Image();
+      img.alt = c.title ? 'Preview of ' + c.title : 'Preview';
+      img.decoding = 'async';
+      img.onload = () => { box.classList.remove('loading'); img.classList.add('ready'); };
+      img.onerror = () => {
+        n++;
+        if (n < srcs.length) { img.src = srcs[n]; }
+        else { img.remove(); noShot(); }
+      };
+      box.insertBefore(img, box.firstChild);
+      img.src = srcs[0];
+    }
+    function kzShowPreview(sectionId, sub, subsub, idx, kind) {
+      const arr = resolveCardsArray(sectionId, sub, subsub);
+      const c = arr && arr[idx];
+      if (!c) { openCardRef(sectionId, sub, subsub, idx, kind); return; }
+      const isGame = kind === 'game';
+      kzPvRef = { sectionId, sub, subsub, idx, kind };
+      document.getElementById('kzPvTag').textContent = isGame ? '◈ Game' : (c.tag || '');
+      document.getElementById('kzPvTitle').textContent = c.title || '';
+      const d = c.desc || c.description || '';
+      const dEl = document.getElementById('kzPvDesc'); dEl.textContent = d; dEl.style.display = d ? '' : 'none';
+      const f = FEEDS[sectionId];
+      document.getElementById('kzPvMeta').textContent = [f && f.label, isGame ? 'Interactive' : (c.time ? c.time + ' read' : '')].filter(Boolean).join('  ·  ');
+      document.getElementById('kzPvGo').textContent = isGame ? '▶ Play now' : 'Read now';
+      const saved = isBookmarked(sectionId, articleSlug(c, idx));
+      document.getElementById('kzPvSave').textContent = saved ? '★ Saved' : '☆ Save';
+      kzPvLoadShot(c, isGame);
+      document.getElementById('kzPv').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('kzPvGo').focus({ preventScroll: true }), 30);
+    }
+    function kzClosePreview() {
+      const el = document.getElementById('kzPv');
+      if (!el.classList.contains('show')) return false;
+      el.classList.remove('show');
+      const img = document.querySelector('#kzPvShot img'); if (img) { img.onerror = img.onload = null; img.remove(); }
+      document.body.style.overflow = '';
+      return true;
+    }
+    function kzOpenCard(sectionId, sub, subsub, idx, kind) {
+      if (window.KZ_PV.on) kzShowPreview(sectionId, sub, subsub, idx, kind);
+      else openCardRef(sectionId, sub, subsub, idx, kind);
+    }
+    document.getElementById('kzPvClose').addEventListener('click', kzClosePreview);
+    document.getElementById('kzPv').addEventListener('click', e => { if (e.target.id === 'kzPv') kzClosePreview(); });
+    document.getElementById('kzPvGo').addEventListener('click', () => {
+      const r = kzPvRef; kzClosePreview(); if (r) openCardRef(r.sectionId, r.sub, r.subsub, r.idx, r.kind);
+    });
+    document.getElementById('kzPvSave').addEventListener('click', () => {
+      const r = kzPvRef; if (!r) return;
+      const arr = resolveCardsArray(r.sectionId, r.sub, r.subsub), c = arr && arr[r.idx]; if (!c) return;
+      const now = toggleBookmark(r.sectionId, r.sub, r.subsub, r.idx, c);
+      document.getElementById('kzPvSave').textContent = now ? '★ Saved' : '☆ Save';
+      showToast(now ? 'Saved' : 'Removed from Saved');
+    });
+    document.getElementById('kzPvShare').addEventListener('click', () => {
+      const r = kzPvRef; if (!r) return;
+      const info = cardShareInfo(r.sectionId, r.sub, r.subsub, r.idx, r.kind);
+      if (info) shareUrl(info.title, info.url);
+    });
+
     // Single delegated listener handles every card, current and future (sentinel-loaded, sub-tabs, etc.)
     document.getElementById('panelsContainer').addEventListener('click', async e => {
       const cardEl = e.target.closest('.card');
@@ -1877,7 +2004,7 @@
           renderSavedPanel();
           return;
         }
-        openCardRef(sectionId, hit.sub, hit.subsub, hit.idx, cardEl.dataset.kind);
+        kzOpenCard(sectionId, hit.sub, hit.subsub, hit.idx, cardEl.dataset.kind);
         return;
       }
 
@@ -1910,7 +2037,7 @@
         return;
       }
 
-      openCardRef(sectionId, sub, subsub, idx, kind);
+      kzOpenCard(sectionId, sub, subsub, idx, kind);
     });
 
     /* ── Sitewide search ── */
