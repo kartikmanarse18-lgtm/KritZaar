@@ -1,5 +1,5 @@
 /* KritZaar static pages: matches the main site's look */
-:root{--bg:#111213;--card:#191A1C;--mint:#961d1d;--link:#b38c81;--slate:#808890;--white:#cae6d3;--mint-glow:rgba(150,29,29,0.6);--mint-dim:rgba(150,29,29,0.07);--line:rgba(150,29,29,0.22);--line2:rgba(150,29,29,0.55)}
+:root{--bg:#111213;--card:#191A1C;--mint:#961d1d;--link:#b38c81;--slate:#808890;--white:#cae6d3;--mint-glow:rgba(150,29,29,0.38);--mint-dim:rgba(150,29,29,0.07);--line:rgba(150,29,29,0.22);--line2:rgba(150,29,29,0.55)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{color-scheme:dark;scroll-behavior:smooth}
 body{background:var(--bg);color:var(--slate);font-family:'Rajdhani',system-ui,sans-serif;font-size:17px;line-height:1.65;overflow-x:hidden}
