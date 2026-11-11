@@ -257,6 +257,10 @@
       background:linear-gradient(to bottom,rgba(6,10,16,0.0),transparent);
       pointer-events:none;border-radius:16px 16px 0 0;
     }
+    .card-overlay .ov-shot{position:relative;flex:1 1 auto;min-height:84px;margin:-6px 0 12px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.04);}
+    .ov-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;}
+    .ov-shot img.ready{opacity:1;}
+    .ov-shot.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.07) 50%,transparent 70%);background-size:200% 100%;animation:kzpvSh 1.2s linear infinite;}
     .ov-tag{font-family:var(--kz-font-body);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mint);margin-bottom:10px;}
     .card-gold .ov-tag{color:var(--gold);}
     .card-game .ov-tag{color:var(--game);}
@@ -1123,7 +1127,7 @@
       ['accent','bg','card','gold','slate','white','danger','gradA','gradB','gameAccent'].forEach(k => { const c = col(t[k]); if (c) out[k] = c; });
       [['gridOpacity',0,20],['glowIntensity',0,100],['gradAngle',0,360],['radius',0,28],['readerWidth',480,960],['readerSize',13,24],['readerLine',1.3,2.4],['gameDim',0.5,1]].forEach(([k,lo,hi]) => { const n = num(t[k], lo, hi); if (n !== undefined) out[k] = n; });
       ['fontHead','fontBody'].forEach(k => { if (typeof t[k] === 'string' && KZ_FONTS[t[k]]) out[k] = t[k]; });
-      ['gradOn','gradWordmark','gradHeadings','cardGlow','anim','previewSheet','autoShot'].forEach(k => { if (typeof t[k] === 'boolean') out[k] = t[k]; });
+      ['gradOn','gradWordmark','gradHeadings','cardGlow','anim','previewSheet','autoShot','hoverShot'].forEach(k => { if (typeof t[k] === 'boolean') out[k] = t[k]; });
       return out;
     }
     function kzApplyThemeExtras(t) {
@@ -1147,7 +1151,7 @@
       setv('--kz-reader-lh', t.readerLine ? String(+t.readerLine) : '');
       if (isHex(t.gameAccent)) { s.setProperty('--game', t.gameAccent); s.setProperty('--game-rgb', hexRgb(t.gameAccent)); } else { s.removeProperty('--game'); s.removeProperty('--game-rgb'); }
       setv('--kz-game-dim', t.gameDim !== undefined ? String(+t.gameDim) : '');
-      window.KZ_PV = { on: t.previewSheet !== false, auto: t.autoShot !== false };
+      window.KZ_PV = { on: t.previewSheet !== false, auto: t.autoShot !== false, hover: t.hoverShot !== false };
     }
     function applyTheme(t) {
       if (!t) return;
@@ -1901,36 +1905,72 @@
 
 
     /* ── Click preview sheet: screenshot + summary before a card opens ── */
-    window.KZ_PV = window.KZ_PV || { on: true, auto: true };
+    window.KZ_PV = window.KZ_PV || { on: true, auto: true, hover: true };
     let kzPvRef = null;
-    function kzPvSources(c) {
+    /* Screenshot sources, best first: admin-supplied screenshot -> automatic screenshot of the
+       card's OWN target site (c.url, i.e. the user's site, never this repo's site) -> card image. */
+    function kzPvSources(c, opts) {
+      opts = opts || {};
       const list = [];
-      const add = u => { u = String(u || '').trim(); if (u && list.indexOf(u) === -1) list.push(u); };
+      const add = (u, auto) => { u = String(u || '').trim(); if (u && !list.some(x => x.url === u)) list.push({ url: u, auto: !!auto }); };
       add(c.preview);
-      if (window.KZ_PV.auto && /^https?:\/\//i.test(c.url || '')) add('https://s.wordpress.com/mshots/v1/' + encodeURIComponent(c.url) + '?w=960&h=600');
-      add(c.image);
+      if (window.KZ_PV.auto && /^https?:\/\//i.test(c.url || '')) add('https://s.wordpress.com/mshots/v1/' + encodeURIComponent(c.url) + '?w=960&h=600', true);
+      if (!opts.noImage) add(c.image);
       return list;
     }
-    function kzPvLoadShot(c, isGame) {
-      const box = document.getElementById('kzPvShot');
-      box.querySelectorAll('img,span[aria-hidden]').forEach(n => n.remove());
-      box.classList.remove('none'); box.classList.add('loading');
-      const srcs = kzPvSources(c);
-      const noShot = () => { box.classList.remove('loading'); box.classList.add('none'); box.insertAdjacentHTML('afterbegin', '<span aria-hidden="true">' + (isGame ? '▶' : '📖') + '</span>'); };
-      if (!srcs.length) { noShot(); return; }
-      let n = 0;
+    /* Shared loader (click sheet + hover overlay). mshots answers instantly with a small
+       "generating" placeholder (HTTP 200), so onerror never fires: detect it by width, retry
+       a few times while the real shot renders, then fall through to the next source. */
+    function kzShotLoad(box, c, opts, onNone) {
+      const tok = box._kzTok = (box._kzTok || 0) + 1;
+      box.querySelectorAll('img').forEach(n => { n.onload = n.onerror = null; n.remove(); });
+      const srcs = kzPvSources(c, opts);
+      if (!srcs.length) { onNone(); return false; }
+      let n = 0, tries = 0;
       const img = new Image();
       img.alt = c.title ? 'Preview of ' + c.title : 'Preview';
       img.decoding = 'async';
-      img.onload = () => { box.classList.remove('loading'); img.classList.add('ready'); };
-      img.onerror = () => {
-        n++;
-        if (n < srcs.length) { img.src = srcs[n]; }
-        else { img.remove(); noShot(); }
+      img.style.objectPosition = (c.previewPosX ?? 50) + '% ' + (c.previewPosY ?? 50) + '%';
+      const next = () => { n++; tries = 0; if (n < srcs.length) img.src = srcs[n].url; else { img.remove(); onNone(); } };
+      img.onload = () => {
+        if (box._kzTok !== tok) return;
+        const s = srcs[n];
+        if (s.auto && img.naturalWidth < 600) {
+          if (tries++ < 4) { setTimeout(() => { if (box._kzTok === tok) img.src = s.url + '&r=' + Date.now(); }, 2500); }
+          else next();
+          return;
+        }
+        box.classList.remove('loading'); img.classList.add('ready');
       };
+      img.onerror = () => { if (box._kzTok === tok) next(); };
       box.insertBefore(img, box.firstChild);
-      img.src = srcs[0];
+      img.src = srcs[0].url;
+      return true;
     }
+    function kzPvLoadShot(c, isGame) {
+      const box = document.getElementById('kzPvShot');
+      box.querySelectorAll('span[aria-hidden]').forEach(n => n.remove());
+      box.classList.remove('none'); box.classList.add('loading');
+      kzShotLoad(box, c, {}, () => { box.classList.remove('loading'); box.classList.add('none'); box.insertAdjacentHTML('afterbegin', '<span aria-hidden="true">' + (isGame ? '▶' : '📖') + '</span>'); });
+    }
+    /* Hover preview: when the cursor enters a card, its overlay shows the screenshot (loaded once). */
+    (function () {
+      const pc = document.getElementById('panelsContainer');
+      if (!pc || !window.matchMedia || !matchMedia('(hover:hover)').matches) return;
+      pc.addEventListener('mouseover', e => {
+        if (!window.KZ_PV.hover) return;
+        const cardEl = e.target.closest && e.target.closest('.card');
+        if (!cardEl || cardEl.dataset.kzHov || cardEl.dataset.savedSection) return;
+        cardEl.dataset.kzHov = '1';
+        const arr = resolveCardsArray(cardEl.dataset.section, cardEl.dataset.sub || null, cardEl.dataset.subsub || null);
+        const c = arr && arr[parseInt(cardEl.dataset.idx, 10)], ov = cardEl.querySelector('.card-overlay');
+        if (!c || !ov) return;
+        const isGame = cardEl.dataset.kind === 'game';
+        const box = document.createElement('div'); box.className = 'ov-shot loading';
+        ov.insertBefore(box, ov.firstChild);
+        kzShotLoad(box, c, { noImage: !isGame }, () => box.remove());
+      });
+    })();
     function kzShowPreview(sectionId, sub, subsub, idx, kind) {
       const arr = resolveCardsArray(sectionId, sub, subsub);
       const c = arr && arr[idx];
