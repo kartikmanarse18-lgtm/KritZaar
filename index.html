@@ -268,7 +268,8 @@
     .kz-live.noint .kz-txt{overflow:hidden;}
     .kz-txt h4{margin:0 0 10px;font:900 15px/1.35 var(--kz-font-head,sans-serif);} .kz-txt p{margin:0 0 10px;color:var(--slate);}
     .kz-live-badge{position:absolute;left:8px;bottom:8px;z-index:3;padding:3px 8px;border-radius:20px;font:700 9px/1.4 var(--kz-font-body,sans-serif);letter-spacing:2px;color:#06110d;background:var(--mint);pointer-events:none;opacity:.9;}
-    .kz-tap{position:absolute;z-index:3;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid var(--mint);background:rgba(255,255,255,.18);pointer-events:none;animation:kzTap .9s ease-out forwards;}
+    .kz-live-badge.kz-step{left:8px;top:8px;bottom:auto;background:rgba(0,0,0,.65);color:var(--mint);border:1px solid var(--mint);}
+    .kz-tap{display:flex;align-items:center;justify-content:center;font:800 15px/1 sans-serif;color:#06110d;position:absolute;z-index:3;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid var(--mint);background:var(--mint);pointer-events:none;animation:kzTap .9s ease-out forwards;}
     @keyframes kzTap{from{transform:scale(.3);opacity:1}to{transform:scale(1.5);opacity:0}}
     .kzpv-shot.live{aspect-ratio:auto;height:min(60dvh,520px);}
     .kzpv-x{z-index:5;}
@@ -1976,8 +1977,13 @@
       const spec = kzLiveSpec(c, isGame); if (!spec) return null;
       const wrap = document.createElement('div'); wrap.className = 'kz-live' + (interactive ? '' : ' noint');
       box.insertBefore(wrap, box.firstChild);
-      const timers = [], H = { destroy() { timers.forEach(clearTimeout); timers.length = 0; cancelAnimationFrame(H.raf); clearInterval(H.iv); if (H.ro) H.ro.disconnect(); wrap.remove(); } };
-      const start = Math.max(0, +c.previewScroll || 0), end = Math.max(start, +c.previewScrollEnd || start), speed = Math.max(5, +c.previewSpeed || 40);
+      const timers = [], H = { destroy() { H.dead = true; timers.forEach(clearTimeout); timers.length = 0; cancelAnimationFrame(H.raf); clearInterval(H.iv); if (H.ro) H.ro.disconnect(); wrap.remove(); } };
+      const steps = (Array.isArray(c.previewSteps) ? c.previewSteps : []).map(q => !q ? null : q.type === 'tap' ? { type: 'tap', x: +q.x, y: +q.y, sy: (q.sy == null ? null : +q.sy), wait: q.wait } : q.type === 'stop' ? { type: 'stop', y: +q.y, wait: q.wait } : null)
+        .filter(q => q && (q.type === 'stop' ? isFinite(q.y) : isFinite(q.x) && isFinite(q.y)));
+      const useSteps = steps.length > 0;
+      const start = useSteps ? 0 : Math.max(0, +c.previewScroll || 0);
+      const end = useSteps ? Math.max.apply(null, [0].concat(steps.map(q => q.type === 'stop' ? q.y : (q.sy || 0)))) : Math.max(start, +c.previewScrollEnd || start);
+      const speed = Math.max(5, +c.previewSpeed || 40);
       const dev = KZ_DEV[c.previewDevice] || KZ_DEV.desktop, taps = kzParseTaps(c.previewTaps);
       let setOff, frame = null, userTook = false;
       if (spec.type === 'frame') {
@@ -2005,7 +2011,7 @@
         requestAnimationFrame(() => setOff(start));
       }
       // auto-scroll demo (start -> end -> back), stops as soon as the visitor touches the content
-      if (end > start) {
+      if (!useSteps && end > start) {
         let dir = 1, last = performance.now(), hold = 0, off = start;
         const stop = () => { userTook = true; cancelAnimationFrame(H.raf); };
         if (interactive) ['pointerdown', 'wheel', 'touchstart'].forEach(ev => wrap.addEventListener(ev, stop, { passive: true, once: true }));
@@ -2022,7 +2028,7 @@
         H.raf = requestAnimationFrame(tick);
       }
       // tap guides: a ripple at each admin-set point (also posted to the page as {kz:'preview-tap',x,y} for games that listen)
-      if (taps.length) {
+      if (!useSteps && taps.length) {
         const cycle = (Math.max.apply(null, taps.map(t => t.t)) + 2) * 1000;
         const run = () => taps.forEach(tp => timers.push(setTimeout(() => {
           const r = document.createElement('i'); r.className = 'kz-tap'; r.style.left = tp.x + '%'; r.style.top = tp.y + '%';
@@ -2030,6 +2036,39 @@
           try { frame && frame.contentWindow && frame.contentWindow.postMessage({ kz: 'preview-tap', x: tp.x, y: tp.y }, '*'); } catch (_) {}
         }, tp.t * 1000)));
         run(); H.iv = setInterval(run, cycle);
+      }
+      // Numbered steps recorded in the admin (scroll stops + taps), played in order and looped.
+      if (useSteps) {
+        const stepBadge = document.createElement('span'); stepBadge.className = 'kz-live-badge kz-step'; wrap.appendChild(stepBadge);
+        if (interactive) ['pointerdown', 'wheel', 'touchstart'].forEach(ev => wrap.addEventListener(ev, () => { userTook = true; stepBadge.remove(); }, { passive: true, once: true }));
+        const sleep = sec => new Promise(r => timers.push(setTimeout(r, sec * 1000)));
+        const animTo = y => new Promise(res => {
+          const from = H.off || 0, dur = Math.max(350, Math.abs(y - from) / 500 * 1000), t0 = performance.now();
+          const f = now => {
+            if (H.dead || userTook) return res();
+            const k = Math.min(1, (now - t0) / dur);
+            setOff(from + (y - from) * (k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2));
+            if (k >= 1) res(); else H.raf = requestAnimationFrame(f);
+          };
+          H.raf = requestAnimationFrame(f);
+        });
+        (async () => {
+          while (!H.dead && !userTook) {
+            for (let i = 0; i < steps.length && !H.dead && !userTook; i++) {
+              const q = steps[i]; stepBadge.textContent = 'STEP ' + (i + 1) + ' / ' + steps.length;
+              if (q.type === 'stop') await animTo(q.y);
+              else {
+                if (q.sy != null) await animTo(q.sy);
+                if (H.dead || userTook) break;
+                const r = document.createElement('i'); r.className = 'kz-tap'; r.textContent = i + 1; r.style.left = q.x + '%'; r.style.top = q.y + '%';
+                wrap.appendChild(r); setTimeout(() => r.remove(), 950);
+                try { frame && frame.contentWindow && frame.contentWindow.postMessage({ kz: 'preview-tap', x: q.x, y: q.y, step: i + 1 }, '*'); } catch (_) {}
+              }
+              await sleep(q.wait != null && q.wait !== '' && isFinite(+q.wait) ? +q.wait : 1.2);
+            }
+            if (!H.dead && !userTook) { await sleep(1.2); await animTo(0); await sleep(0.6); }
+          }
+        })();
       }
       const badge = document.createElement('span'); badge.className = 'kz-live-badge';
       badge.textContent = interactive ? 'LIVE · scroll & tap' : 'LIVE'; wrap.appendChild(badge);
