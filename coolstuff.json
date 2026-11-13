@@ -1,6 +1,15 @@
 {
   "cards": [
     {
+      "tag": "muscle-and-skeleton visualization,",
+      "time": "Learn and test",
+      "title": "MYOATLAS ",
+      "url": "https://games.kritzaar.online/app/myoatlas/",
+      "image": "https://user53539.na.imgto.link/public/20261113/9ad73a6f295e2c570789860b-file-00000000db108211a8f8fb23f00f9c25.avif",
+      "type": "game",
+      "desc": "MyoAtlas is an interactive 3D human anatomy platform that brings the complexity of the human body to life. Explore detailed muscular and skeletal structures, examine anatomical layers, understand muscle groups, and test your knowledge through interactive quizzes—all in one immersive learning experience."
+    },
+    {
       "tag": "Medical assistance ",
       "time": "5 min",
       "title": "Arogyabot ",
